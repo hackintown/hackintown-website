@@ -15,7 +15,7 @@ export function Navbar() {
                 <MobileSidebar />
                 <Link href="/" className="flex items-center gap-2 md:gap-3">
                     <Monitor className="h-6 w-6 text-primary md:h-8 md:w-8" />
-                    <span className="font-bold text-xl md:text-2xl">TechPro Solutions</span>
+                    <span className="font-bold text-xl md:text-2xl">Hackintown</span>
                 </Link>
             </div>
 

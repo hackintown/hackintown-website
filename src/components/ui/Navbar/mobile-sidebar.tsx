@@ -105,7 +105,7 @@ export function MobileSidebar() {
           <span className="sr-only">Toggle menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-full max-w-[300px] p-0">
+      <SheetContent side="left" className="w-full max-w-[300px] p-0" title="Menu">
         <div className="flex flex-col gap-4 p-6">
           <Link
             href="/"
@@ -114,7 +114,7 @@ export function MobileSidebar() {
           >
             Home
           </Link>
-          
+
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="services">
               <AccordionTrigger>Services</AccordionTrigger>
