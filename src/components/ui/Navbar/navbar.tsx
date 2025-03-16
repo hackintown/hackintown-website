@@ -1,34 +1,99 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import Link from 'next/link';
-import { Monitor } from 'lucide-react';
-import { MainNav } from '@/components/ui/Navbar/main-nav';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { Button } from '@/components/ui/button';
-import { MobileSidebar } from '@/components/ui/Navbar/mobile-sidebar';
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import DesktopMenu from "./DesktopMenu";
+import MobMenu from "./MobMenu";
+import { NAVIGATION_MENUS } from "./constants";
+import { throttle } from "lodash";
+import { cn } from "@/lib/utils";
+import DarkModeToggle from "../DarkModeToggle";
+import { Search } from "lucide-react";
 
-export function Navbar() {
-    return (
-        <div className="fixed top-0 left-0 right-0 z-50 flex h-20 items-center border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <div className="flex items-center gap-4 md:gap-8">
-                <MobileSidebar />
-                <Link href="/" className="flex items-center gap-2 md:gap-3">
-                    <Monitor className="h-6 w-6 text-primary md:h-8 md:w-8" />
-                    <span className="font-bold text-xl md:text-2xl">Hackintown</span>
-                </Link>
+export default function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = throttle(() => {
+      setIsScrolled(window.scrollY > 20);
+
+      if (window.scrollY > lastScrollY && window.scrollY > 100) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setLastScrollY(window.scrollY);
+    }, 100);
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    // Initial check
+    handleResize();
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [lastScrollY]);
+
+  return (
+    <motion.header
+      className={cn(
+        "nav-container",
+        isScrolled
+          ? "nav-scrolled bg-background/95 backdrop-blur-md"
+          : "bg-transparent",
+        "py-1 transition-all duration-300 ease-in-out",
+        !isVisible && "-translate-y-full"
+      )}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+    >
+      <div className="container">
+        <div className="flex h-16 items-center justify-between max-w-full">
+          <Logo />
+
+          <DesktopNavigation />
+
+          <div className="flex items-center gap-2">
+            {isMobile && <MobMenu Menus={NAVIGATION_MENUS} />}
+            <div className="flex items-center gap-4">
+              <div className="hidden sm:flex w-10 h-10 items-center justify-center rounded-full bg-background/80 shadow-sm border border-border/20 hover:border-primary/30 transition-colors">
+                <Search className="h-5 w-5 text-foreground/70" />
+              </div>
+              <DarkModeToggle />
             </div>
-
-            <div className="hidden flex-1 md:flex md:justify-center">
-                <MainNav />
-            </div>
-
-            <div className="ml-auto flex items-center gap-4">
-                <Button variant="default" className="hidden md:inline-flex" asChild>
-                    <Link href="/contact">Get Started</Link>
-                </Button>
-                <ThemeToggle />
-            </div>
+          </div>
         </div>
-    );
+      </div>
+    </motion.header>
+  );
 }
+
+const Logo = () => (
+  <Link href="/" className="block text-2xl font-bold group">
+    <span className="text-2xl xl:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent whitespace-nowrap group-hover:from-accent group-hover:to-primary transition-all duration-500">
+      Hackintown
+    </span>
+  </Link>
+);
+
+const DesktopNavigation = () => (
+  <nav className="hidden lg:flex items-center gap-2">
+    <ul className="flex items-center gap-2 text-base">
+      {NAVIGATION_MENUS.map((menu) => (
+        <DesktopMenu key={menu.name} menu={menu} />
+      ))}
+    </ul>
+  </nav>
+);
