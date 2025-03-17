@@ -9,8 +9,8 @@ import { NAVIGATION_MENUS } from "./constants";
 import { throttle } from "lodash";
 import { cn } from "@/lib/utils";
 import DarkModeToggle from "../DarkModeToggle";
-import { Search } from "lucide-react";
-
+import { IoIosArrowForward } from "react-icons/io";
+import { Button } from "../button";
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -29,35 +29,33 @@ export default function Navbar() {
       setLastScrollY(window.scrollY);
     }, 100);
 
-    const handleResize = () => {
+    const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 1024);
     };
 
-    // Initial check
-    handleResize();
-
+    checkIfMobile();
+    
     window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleResize);
-
+    window.addEventListener("resize", checkIfMobile);
+    
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", checkIfMobile);
     };
   }, [lastScrollY]);
 
   return (
     <motion.header
       className={cn(
-        "nav-container",
-        isScrolled
-          ? "nav-scrolled bg-background/95 backdrop-blur-md"
-          : "bg-transparent",
-        "py-1 transition-all duration-300 ease-in-out",
+        "fixed w-full z-50 bg-background shadow-sm",
+        "top-[36px] sm:top-[36px] md:top-[41px]",
+        isScrolled && " !top-[64px] shadow-sm bg-opacity-95 backdrop-blur-sm",
+        "transition-all duration-300",
         !isVisible && "-translate-y-full"
       )}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
+      transition={{ duration: 0.3 }}
     >
       <div className="container">
         <div className="flex h-16 items-center justify-between max-w-full">
@@ -68,10 +66,25 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             {isMobile && <MobMenu Menus={NAVIGATION_MENUS} />}
             <div className="flex items-center gap-4">
-              <div className="hidden sm:flex w-10 h-10 items-center justify-center rounded-full bg-background/80 shadow-sm border border-border/20 hover:border-primary/30 transition-colors">
-                <Search className="h-5 w-5 text-foreground/70" />
-              </div>
               <DarkModeToggle />
+
+              <Button
+                variant="primary"
+                size={"xs"}
+                className="hidden sm:flex sm:size-sm md:size-md lg:size-lg"
+                rightIcon={<IoIosArrowForward />}
+              >
+                Get a Quote
+              </Button>
+
+              <Button
+                variant="primary"
+                size={"lg"}
+                className="flex sm:hidden"
+                rightIcon={<IoIosArrowForward />}
+              >
+                Get a Quote
+              </Button>
             </div>
           </div>
         </div>

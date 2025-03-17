@@ -87,12 +87,12 @@ export default function DesktopMenu({ menu }: DesktopMenuProps) {
     >
       {!hasSubMenu && menu.href ? (
         <Link href={menu.href}>
-          <span className="nav-link flex items-center font-medium text-xs xl:text-base gap-1 hover:bg-primary/5 cursor-pointer px-3 py-1 rounded-xl transition-all duration-200">
+          <span className="flex items-center text-foreground font-medium text-xs xl:text-base gap-1 hover:bg-primary/5 cursor-pointer px-3 py-1 rounded-xl transition-all duration-200">
             {menu.name}
           </span>
         </Link>
       ) : (
-        <span className="nav-link flex items-center font-medium text-xs xl:text-base gap-1 hover:bg-primary/5 cursor-pointer px-3 py-1 rounded-xl transition-all duration-200">
+        <span className="flex items-center font-medium text-xs text-foreground xl:text-base gap-1 hover:bg-primary/5 cursor-pointer px-3 py-1 rounded-xl transition-all duration-200">
           {menu.name}
           {hasSubMenu && (
             <ChevronDown

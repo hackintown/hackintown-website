@@ -47,20 +47,12 @@ export default function MainLayoutWrapper({
         disableTransitionOnChange
       >
         {!isAdminRoute && (
-          <div className="fixed top-0 w-full z-50 flex flex-col navbar-container">
-            <div className="top-navbar">
-              <TopNavbar />
-            </div>
+          <div className="fixed top-0 w-full z-50 flex flex-col">
+            <TopNavbar />
             <Navbar />
           </div>
         )}
-        <main
-          className={
-            isAdminRoute
-              ? ""
-              : "pt-[calc(4rem+var(--top-navbar-height,2.75rem))] transition-all duration-300"
-          }
-        >
+        <main className="pt-36 sm:pt-24">
           {children}
         </main>
       </ThemeProvider>

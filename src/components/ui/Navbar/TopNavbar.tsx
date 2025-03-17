@@ -1,45 +1,39 @@
 "use client";
-import { Clock, Facebook, Instagram, Twitter } from "lucide-react";
+import { Facebook, Instagram, Twitter, Phone, Calendar } from "lucide-react";
 import Slider from "react-slick";
 import { motion } from "framer-motion";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { ImPower } from "react-icons/im";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default function TopNav() {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [currentTime, setCurrentTime] = useState("");
 
   useEffect(() => {
-    // Initial time set
-    setCurrentTime(new Date().toLocaleString());
+    // Handle scroll event
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
 
-    // Update time every second
-    const timer = setInterval(() => {
-      setCurrentTime(new Date().toLocaleString());
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    // Optimize scroll handling for better performance
-    const controlNavbar = () => {
-      // Hide TopNav when scrolling down past threshold, show when scrolling up
-      if (window.scrollY > lastScrollY && window.scrollY > 100) {
+      // Hide TopNavbar when scrolling down, show when scrolling up
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
         setIsVisible(false);
       } else {
         setIsVisible(true);
       }
-      setLastScrollY(window.scrollY);
+
+      setLastScrollY(currentScrollY);
     };
 
-    // Use passive event listener for better scroll performance
-    window.addEventListener("scroll", controlNavbar, { passive: true });
-    return () => window.removeEventListener("scroll", controlNavbar);
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [lastScrollY]);
 
   const settings = {
@@ -51,88 +45,93 @@ export default function TopNav() {
     autoplay: true,
     autoplaySpeed: 3000,
     arrows: false,
-    cssEase: "cubic-bezier(0.45, 0, 0.55, 1)", // Smooth easing
   };
 
-  // Trending items - IT company focused content
-  const trendingItems = [
-    "Hackintown launches new AI-powered development platform",
-    "Join our upcoming webinar on cloud infrastructure optimization",
-    "New client case study: 300% performance improvement with our solutions",
+  // Updated clinic information items with hearing-specific content
+  const clinicInfoItems = [
+    "Hearing emergency? Call us at (555) 123-4567",
+    "Free hearing assessments for new patients",
+    "Same-day hearing aid repairs available",
+    "Specialized tinnitus management services",
+    "Accepting most insurance plans for hearing care"
   ];
 
-  // Social media hover animations
-  const socialIconVariants = {
-    hover: { scale: 1.2, rotate: 5, transition: { duration: 0.3 } },
-  };
-
   return (
-    <motion.div
-      className={cn(
-        "bg-background/95 backdrop-blur-sm border-b border-border/20 transition-all duration-300 ease-in-out",
-        !isVisible && "-translate-y-full"
-      )}
-      initial={{ y: -50 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="container flex flex-col md:flex-row items-center justify-between py-2">
-        {/* Left: Trending label + slider */}
-        <div className="flex items-center space-x-2 mb-2 md:mb-0">
-          <motion.div
-            initial={{ rotate: 0 }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          >
-            <ImPower className="size-3 sm:size-4 text-primary" />
-          </motion.div>
-          <span className="bg-primary text-primary-foreground text-xs sm:text-sm px-2 py-1 rounded font-medium">
-            Trending
-          </span>
-          <div className="w-64 md:w-96 overflow-hidden">
-            <Slider {...settings}>
-              {trendingItems.map((item, idx) => (
-                <div key={idx}>
-                  <p className="text-xs sm:text-sm truncate text-foreground/80 hover:text-foreground cursor-pointer transition-colors">
-                    {item}
-                  </p>
-                </div>
-              ))}
-            </Slider>
+    <div className={cn(
+      "bg-primary  shadow-md transition-transform duration-300 text-foreground/90 fixed w-full top-0 z-[60] py-2",
+      !isVisible && "-translate-y-full"
+    )}>
+      {/* Mobile View */}
+      <div className="md:hidden container">
+        <div className="flex justify-between items-center">
+          <Link href="tel:+918851967714" className="flex items-center text-sm ">
+            <Phone size={14} className="mr-1 text-primary-foreground" />
+            <span className="font-medium text-primary-foreground">+91 8851967714</span>
+          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/appointment" className="flex items-center text-sm">
+              <Calendar size={14} className="mr-1 text-primary-foreground" />
+              <span className="font-medium text-primary-foreground">Book</span>
+            </Link>
+            <SocialIcons className="gap-2 text-primary-foreground" iconSize={14} />
           </div>
-        </div>
-
-        {/* Right: date/time + social icons */}
-        <div className="flex items-center text-xs sm:text-sm space-x-4">
-          <div className="flex items-center bg-muted/50 px-2 py-1 rounded">
-            <Clock size={16} className="mr-1 text-primary" />
-            <span className="text-foreground/80">{currentTime}</span>
-          </div>
-
-          {/* Social icons with enhanced animations */}
-          <motion.div
-            whileHover="hover"
-            variants={socialIconVariants}
-            className="cursor-pointer text-blue-600 hover:text-primary transition-colors"
-          >
-            <Facebook className="size-4 sm:size-5 text-foreground/80" />
-          </motion.div>
-          <motion.div
-            whileHover="hover"
-            variants={socialIconVariants}
-            className="cursor-pointer text-sky-400 hover:text-primary transition-colors"
-          >
-            <Twitter className="size-4 sm:size-5 text-foreground/80" />
-          </motion.div>
-          <motion.div
-            whileHover="hover"
-            variants={socialIconVariants}
-            className="cursor-pointer text-pink-500 hover:text-primary transition-colors"
-          >
-            <Instagram className="size-4 sm:size-5 text-foreground/80" />
-          </motion.div>
         </div>
       </div>
-    </motion.div>
+
+      {/* Desktop View */}
+      <div className="hidden md:block container">
+        <div className="flex items-center justify-between">
+          {/* Left: Clinic info slider */}
+          <div className="flex items-center gap-3">
+            <div className="w-96 md:w-72 lg:w-96">
+              <Slider {...settings}>
+                {clinicInfoItems.map((item, idx) => (
+                  <div key={idx}>
+                    <p className="text-sm md:text-xs lg:text-sm text-primary-foreground font-light">
+                      {item}
+                    </p>
+                  </div>
+                ))}
+              </Slider>
+            </div>
+          </div>
+
+          {/* Right: Contact & Social */}
+          <div className="flex items-center gap-6">
+            <Link href="/appointment"
+              className="flex items-center hover:text-primary-foreground  transition-colors">
+              <Calendar size={16} className="mr-1 text-primary-foreground" />
+              <span className="font-medium text-sm md:text-xs lg:text-sm text-primary-foreground">Book Appointment</span>
+            </Link>
+            <Link href="tel:+918851967714"
+              className="flex items-center hover:text-primary-foreground transition-colors">
+              <Phone size={16} className="mr-1 text-primary-foreground" />
+              <span className="font-medium text-sm md:text-xs lg:text-sm text-primary-foreground">+91 8851967714</span>
+            </Link>
+            <SocialIcons className="gap-3" iconSize={16} />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
+
+// Extracted Social Icons component for reusability
+const SocialIcons = ({ className = "", iconSize = 16 }) => (
+  <div className={cn("flex items-center", className)}>
+    {[
+      { Icon: Facebook, href: "https://facebook.com" },
+      { Icon: Twitter, href: "https://twitter.com" },
+      { Icon: Instagram, href: "https://instagram.com" }
+    ].map(({ Icon, href }) => (
+      <Link key={href} href={href} target="_blank" rel="noopener noreferrer">
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          className="text-primary-foreground hover:text-primary-foreground/80 transition-colors"
+        >
+          <Icon size={iconSize} />
+        </motion.div>
+      </Link>
+    ))}
+  </div>
+);

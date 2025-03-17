@@ -136,9 +136,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   h1,
   h2,
   h3,
@@ -147,20 +149,9 @@
   h6 {
     @apply text-primary font-semibold;
   }
+
   a {
     @apply text-accent hover:text-accent/80 transition-colors;
-  }
-  .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 transition-colors;
-  }
-  .btn-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 transition-colors;
-  }
-  .btn-outline {
-    @apply border border-primary text-primary hover:bg-primary/10 transition-colors;
-  }
-  .btn-destructive {
-    @apply bg-destructive text-destructive-foreground hover:bg-destructive/90 transition-colors;
   }
 }
 
@@ -168,29 +159,13 @@
    NAVBAR
    --------------------------------------- */
 @layer components {
-  /* ---------------------------------------
-          NAVBAR
-          --------------------------------------- */
-  .nav-container {
-    @apply fixed w-full top-0 z-50 bg-background/95 mt-16 sm:mt-11;
-  }
-
-  .nav-scrolled {
-    @apply flex w-full items-center justify-center shadow-md mt-0;
-    @apply bg-background/95 dark:bg-background/90 dark:shadow-md dark:shadow-foreground/5;
-  }
-
-  .nav-link {
-    @apply relative text-foreground/80 hover:text-foreground transition-colors duration-200;
-  }
-
   .container {
     @apply mx-auto px-2 sm:px-4;
   }
 
   /* ---------------------------------------
           SUB-MENU
-          --------------------------------------- */
+     --------------------------------------- */
   .sub-menu {
     @apply absolute top-[4.2rem] p-[15px] rounded-xl origin-[50%_-170px] z-50 border border-border/10;
     @apply bg-background/95 backdrop-blur-xl shadow-lg shadow-foreground/10 dark:shadow-foreground/30;
@@ -217,62 +192,4 @@
     @apply after:absolute after:left-0 after:-bottom-2 after:w-16 after:h-[0.5px] after:bg-primary/30;
   }
 
-  /* Mobile menu enhancements */
-  .mobile-menu-overlay {
-    @apply fixed inset-0 top-16 bg-background/95 backdrop-blur-md z-50;
-    @apply transition-all duration-300 ease-in-out;
-  }
-
-  .mobile-menu-item {
-    @apply flex items-center justify-between p-4 hover:bg-primary/5 rounded-lg transition-all duration-200;
-    @apply border border-transparent hover:border-primary/20;
-    @apply hover:shadow-sm hover:shadow-primary/5;
-  }
-
-  .mobile-submenu-item {
-    @apply flex items-start gap-4 p-3 rounded-lg hover:bg-primary/5 transition-all duration-200;
-    @apply hover:translate-x-1 border border-transparent hover:border-primary/10;
-    @apply hover:shadow-sm hover:shadow-primary/5;
-  }
-
-  /* Mobile menu close button */
-  .mobile-menu-close {
-    @apply fixed top-4 right-4 z-[1000] p-2 rounded-full bg-background shadow-md border border-border;
-    @apply hover:bg-primary/5 transition-all duration-200;
-  }
-
-  /* Mobile menu scrollbar styling */
-  .mobile-menu-content::-webkit-scrollbar {
-    @apply w-1.5;
-  }
-
-  .mobile-menu-content::-webkit-scrollbar-track {
-    @apply bg-transparent;
-  }
-
-  .mobile-menu-content::-webkit-scrollbar-thumb {
-    @apply bg-primary/20 rounded-full hover:bg-primary/30;
-  }
-
-  /* Add this new section for the submenu footer */
-  .sub-menu-footer {
-    @apply bg-red-50 rounded-b-lg mt-6 -mx-[15px] -mb-[15px];
-    @apply border-t border-red-100;
-  }
-
-  /* Mobile menu responsive behavior */
-  @media (min-width: 1024px) {
-    .mobile-menu-panel {
-      @apply opacity-0 pointer-events-none;
-      transform: translateX(-100%) !important;
-    }
-
-    .mobile-menu-backdrop {
-      @apply opacity-0 pointer-events-none;
-    }
-
-    .mobile-menu-close {
-      @apply opacity-0 pointer-events-none;
-    }
-  }
 }
