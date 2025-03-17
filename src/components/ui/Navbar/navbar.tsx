@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import DarkModeToggle from "../DarkModeToggle";
 import { IoIosArrowForward } from "react-icons/io";
 import { Button } from "../button";
+
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);

@@ -3,8 +3,8 @@
 import { useSelectedLayoutSegments } from "next/navigation";
 import { ThemeProvider } from "next-themes";
 import TopNavbar from "@/components/ui/Navbar/TopNavbar";
-import Navbar from "@/components/ui/Navbar/Navbar";
 import { useEffect } from "react";
+import Navbar from "../ui/Navbar/Navbar";
 
 interface MainLayoutWrapperProps {
   children: React.ReactNode;
@@ -52,9 +52,7 @@ export default function MainLayoutWrapper({
             <Navbar />
           </div>
         )}
-        <main className="pt-36 sm:pt-24">
-          {children}
-        </main>
+        <main className="pt-36 sm:pt-24">{children}</main>
       </ThemeProvider>
     </body>
   );
