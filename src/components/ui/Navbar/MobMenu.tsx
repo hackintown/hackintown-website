@@ -108,37 +108,44 @@ export default function MobMenu({ Menus }: MobMenuProps) {
   return (
     <div className="relative">
       <button
-        className="lg:hidden z-[999] relative p-2 hover:bg-white/5 rounded-md transition-colors"
+        className={cn(
+          "lg:hidden z-[999] relative p-2.5 rounded-full transition-all duration-300",
+          isOpen
+            ? "bg-primary text-primary-foreground rotate-90"
+            : "hover:bg-primary/10 hover:scale-105"
+        )}
         onClick={toggleDrawer}
         aria-label={isOpen ? "Close menu" : "Open menu"}
       >
-        {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       </button>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed inset-0 top-16 bg-background/95 backdrop-blur-md z-50"
+            className="fixed h-lvh inset-0 top-0 bg-background/98 backdrop-blur-xl z-50 py-24"
             {...menuAnimation}
           >
             <div className="h-full flex flex-col">
               {/* Search Bar */}
-              <div className="p-4 border-b border-border/10">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground" />
+              <div className="px-6 pb-6 border-b border-border/20">
+                <div className="relative group">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                   <input
                     type="text"
                     placeholder="Search menu..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 bg-white/5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary/30"
+                    className="w-full pl-11 pr-4 py-3 bg-muted/50 rounded-xl border border-border/10 
+                    focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30
+                    placeholder:text-muted-foreground/70 transition-all duration-300"
                   />
                 </div>
               </div>
 
               {/* Menu Content */}
               <nav className="flex-1 overflow-y-auto">
-                <ul className="p-4 space-y-2">
+                <ul className="p-6 space-y-3">
                   {filteredMenus.map((menu, i) => {
                     const isClicked = clicked === i;
                     const hasSubMenu = menu.subMenu && menu.subMenu.length > 0;
@@ -147,29 +154,31 @@ export default function MobMenu({ Menus }: MobMenuProps) {
                       <li
                         key={menu.name}
                         className={cn(
-                          "rounded-lg overflow-hidden border border-transparent",
-                          isClicked && "border-border/10 bg-white/[0.02]"
+                          "rounded-xl overflow-hidden border transition-all duration-300",
+                          isClicked
+                            ? "border-primary/20 bg-primary/5 shadow-lg shadow-primary/5"
+                            : "border-transparent hover:border-border/20"
                         )}
                       >
                         {menu.href && !hasSubMenu ? (
                           <Link
                             href={menu.href}
-                            className="flex items-center gap-2 p-4 hover:bg-white/5 rounded-lg transition-colors"
+                            className="flex items-center gap-3 p-4 hover:bg-primary/5 rounded-xl transition-all duration-300"
                             onClick={handleMenuItemClick}
                           >
-                            <span className="font-medium">{menu.name}</span>
+                            <span className="font-medium text-foreground/90">{menu.name}</span>
                           </Link>
                         ) : (
                           <button
-                            className="w-full flex items-center justify-between p-4 hover:bg-white/5 rounded-lg transition-colors"
+                            className="w-full flex items-center justify-between p-4 hover:bg-primary/5 rounded-xl transition-all duration-300"
                             onClick={() => setClicked(isClicked ? null : i)}
                             aria-expanded={isClicked}
                           >
-                            <span className="font-medium">{menu.name}</span>
+                            <span className="font-medium text-foreground/90">{menu.name}</span>
                             {hasSubMenu && (
                               <ChevronDown
                                 className={cn(
-                                  "h-4 w-4 transition-transform duration-200",
+                                  "h-4 w-4 text-primary transition-transform duration-300",
                                   isClicked && "rotate-180"
                                 )}
                               />
@@ -186,25 +195,27 @@ export default function MobMenu({ Menus }: MobMenuProps) {
                               variants={subMenuAnimation}
                               className="overflow-hidden"
                             >
-                              <div className="px-4 pb-4 space-y-1">
+                              <div className="px-4 pb-4 space-y-2">
                                 {menu.subMenu?.map((item) => (
                                   <Link
                                     key={item.name}
                                     href={item.href}
                                     onClick={handleMenuItemClick}
-                                    className="flex items-start gap-4 p-3 rounded-lg hover:bg-white/5 transition-colors"
+                                    className="flex items-start gap-4 p-3 rounded-xl hover:bg-primary/5 
+                                    transition-all duration-300 hover:translate-x-1"
                                   >
                                     {item.iconName && (
-                                      <div className="p-2 rounded-md bg-primary/10 text-primary">
+                                      <div className="p-2.5 rounded-lg bg-primary/10 text-primary 
+                                      shadow-sm shadow-primary/10 transition-colors duration-300">
                                         {getIcon(item.iconName)}
                                       </div>
                                     )}
                                     <div>
-                                      <h4 className="font-medium">
+                                      <h4 className="font-medium text-foreground/90">
                                         {item.name}
                                       </h4>
                                       {item.desc && (
-                                        <p className="text-sm text-foreground mt-0.5">
+                                        <p className="text-sm text-muted-foreground mt-1">
                                           {item.desc}
                                         </p>
                                       )}
@@ -218,7 +229,7 @@ export default function MobMenu({ Menus }: MobMenuProps) {
                                   <SubMenuFooter
                                     text={menu.footerText}
                                     href={menu.footerLink}
-                                    className="rounded-lg"
+                                    className="rounded-xl bg-muted/50 border border-border/10"
                                   />
                                 </div>
                               )}

@@ -41,7 +41,6 @@ export function Sidebar() {
                 'w-full justify-start gap-2',
                 pathname === item.href && 'bg-primary text-primary-foreground'
               )}
-              asChild
             >
               <Link href={item.href}>
                 <Icon className="h-4 w-4" />

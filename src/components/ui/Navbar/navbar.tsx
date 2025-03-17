@@ -34,10 +34,10 @@ export default function Navbar() {
     };
 
     checkIfMobile();
-    
+
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", checkIfMobile);
-    
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", checkIfMobile);
@@ -64,13 +64,12 @@ export default function Navbar() {
           <DesktopNavigation />
 
           <div className="flex items-center gap-2">
-            {isMobile && <MobMenu Menus={NAVIGATION_MENUS} />}
             <div className="flex items-center gap-4">
               <DarkModeToggle />
 
               <Button
                 variant="primary"
-                size={"xs"}
+                size={"lg"}
                 className="hidden sm:flex sm:size-sm md:size-md lg:size-lg"
                 rightIcon={<IoIosArrowForward />}
               >
@@ -79,13 +78,14 @@ export default function Navbar() {
 
               <Button
                 variant="primary"
-                size={"lg"}
+                size={"xs"}
                 className="flex sm:hidden"
                 rightIcon={<IoIosArrowForward />}
               >
                 Get a Quote
               </Button>
             </div>
+            {isMobile && <MobMenu Menus={NAVIGATION_MENUS} />}
           </div>
         </div>
       </div>

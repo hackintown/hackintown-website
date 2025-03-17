@@ -79,46 +79,7 @@ export const NAVIGATION_MENUS = [
     layout: "grouped",
   },
   {
-    name: "Solutions",
-    subMenuHeading: ["Business Solutions", "Learning Solutions"],
-    subMenu: [
-      {
-        name: "CRM",
-        desc: "Customer Relationship Management",
-        href: "/crm",
-        iconName: "Users2",
-        group: "Business Solutions",
-      },
-      {
-        name: "Assets & Vendor Management",
-        desc: "Track assets and manage vendors efficiently",
-        href: "/assets-vendor-management",
-        iconName: "Building2",
-        group: "Business Solutions",
-      },
-      {
-        name: "Expense Management",
-        desc: "Track and manage business expenses",
-        href: "/expense-management",
-        iconName: "Wallet",
-        group: "Business Solutions",
-      },
-      {
-        name: "LMS",
-        desc: "Learning Management System",
-        href: "/lms",
-        iconName: "GraduationCap",
-        group: "Learning Solutions",
-      },
-    ],
-    gridCols: 2,
-    footerText: "Ready to get started?",
-    footerLink: "/contact",
-    layout: "grouped",
-  },
-
-  {
-    name: "Marketplace Solutions",
+    name: "Industries",
     subMenuHeading: [
       "Beauty & Saloon",
       "Home Services",
@@ -185,12 +146,44 @@ export const NAVIGATION_MENUS = [
 
   },
   {
-    name: "Award & Events",
-    href: "/awards-and-events",
-  },
-  {
-    name: "Careers",
-    href: "/careers",
+    name: "About Us",
+    subMenuHeading: [
+      "Awards & Recognition",
+      "Careers",
+      "Partnership",
+      "FAQs",
+    ],
+    subMenu: [
+      {
+        name: "Awards & Recognition",
+        desc: "Awards & Recognition",
+        href: "/awards-recognition",
+        iconName: "Award",
+      },
+      {
+        name: "Careers",
+        desc: "Join our team of experts",
+        href: "/careers",
+        iconName: "Briefcase",
+      },
+      {
+        name: "Partnership",
+        desc: "Partner with us",
+        href: "/partnership",
+        iconName: "Handshake",
+      },
+      {
+        name: "FAQs",
+        desc: "Frequently Asked Questions",
+        href: "/faqs",
+        iconName: "HelpCircle",
+      },
+
+    ],
+    gridCols: 2,
+    footerText: "Ready to get started?",
+    footerLink: "/contact",
+
   },
   {
     name: "Portfolio",
