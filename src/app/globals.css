@@ -51,6 +51,8 @@
   --font-figtree: "Figtree", sans-serif;
   --font-sans: var(--font-figtree);
   --font-mono: var(--font-geist-mono);
+  --font-jost: "Jost", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
 }
 
 :root {

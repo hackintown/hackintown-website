@@ -146,14 +146,28 @@ export const NAVIGATION_MENUS = [
 
   },
   {
-    name: "About Us",
+    name: "Insights",
     subMenuHeading: [
+      "About Us",
+      "Blog",
       "Awards & Recognition",
       "Careers",
       "Partnership",
       "FAQs",
     ],
     subMenu: [
+      {
+        name: "About Us",
+        desc: "About Us",
+        href: "/about-us",
+        iconName: "User",
+      },
+      {
+        name: "Blog",
+        desc: "Blog",
+        href: "/blog",
+        iconName: "Book",
+      },
       {
         name: "Awards & Recognition",
         desc: "Awards & Recognition",

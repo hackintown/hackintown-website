@@ -66,12 +66,12 @@ export default function TopNav() {
         <div className="flex justify-between items-center">
           <Link href="tel:+918851967714" className="flex items-center text-sm ">
             <Phone size={14} className="mr-1 text-primary-foreground" />
-            <span className="font-medium text-primary-foreground">+91 8851967714</span>
+            <span className="font-medium text-primary-foreground font-poppins">+91 8851967714</span>
           </Link>
           <div className="flex items-center gap-3">
             <Link href="/appointment" className="flex items-center text-sm">
               <Calendar size={14} className="mr-1 text-primary-foreground" />
-              <span className="font-medium text-primary-foreground">Book</span>
+              <span className="font-medium text-primary-foreground font-poppins">Book</span>
             </Link>
             <SocialIcons className="gap-2 text-primary-foreground" iconSize={14} />
           </div>
@@ -87,7 +87,7 @@ export default function TopNav() {
               <Slider {...settings}>
                 {clinicInfoItems.map((item, idx) => (
                   <div key={idx}>
-                    <p className="text-sm md:text-xs lg:text-sm text-primary-foreground font-light">
+                    <p className="text-sm md:text-xs lg:text-sm text-primary-foreground font-light font-poppins">
                       {item}
                     </p>
                   </div>
@@ -101,12 +101,12 @@ export default function TopNav() {
             <Link href="/appointment"
               className="flex items-center hover:text-primary-foreground  transition-colors">
               <Calendar size={16} className="mr-1 text-primary-foreground" />
-              <span className="font-medium text-sm md:text-xs lg:text-sm text-primary-foreground">Book Appointment</span>
+              <span className=" text-sm md:text-xs lg:text-sm text-primary-foreground font-poppins">Book Appointment</span>
             </Link>
             <Link href="tel:+918851967714"
               className="flex items-center hover:text-primary-foreground transition-colors">
               <Phone size={16} className="mr-1 text-primary-foreground" />
-              <span className="font-medium text-sm md:text-xs lg:text-sm text-primary-foreground">+91 8851967714</span>
+              <span className=" text-sm md:text-xs lg:text-sm text-primary-foreground font-poppins">+91 8851967714</span>
             </Link>
             <SocialIcons className="gap-3" iconSize={16} />
           </div>

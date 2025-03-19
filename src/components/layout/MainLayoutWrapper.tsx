@@ -9,11 +9,15 @@ import Navbar from "../ui/Navbar/Navbar";
 interface MainLayoutWrapperProps {
   children: React.ReactNode;
   interClass: string;
+  jostClass: string;
+  poppinsClass: string;
 }
 
 export default function MainLayoutWrapper({
   children,
   interClass,
+  jostClass,
+  poppinsClass,
 }: MainLayoutWrapperProps) {
   const segments = useSelectedLayoutSegments();
   const isAdminRoute = segments[0] === "admin";
@@ -39,7 +43,7 @@ export default function MainLayoutWrapper({
   }, []);
 
   return (
-    <body className={`${interClass} antialiased`}>
+    <body className={`${interClass} ${jostClass} ${poppinsClass} antialiased`}>
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
@@ -52,7 +56,7 @@ export default function MainLayoutWrapper({
             <Navbar />
           </div>
         )}
-        <main className="pt-36 sm:pt-24">{children}</main>
+          <main className={isAdminRoute ? "" : "pt-36 sm:pt-32"}>{children}</main>
       </ThemeProvider>
     </body>
   );
