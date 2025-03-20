@@ -22,26 +22,6 @@ export default function MainLayoutWrapper({
   const segments = useSelectedLayoutSegments();
   const isAdminRoute = segments[0] === "admin";
 
-  // Dynamically measure and set the top navbar height for responsive layouts
-  useEffect(() => {
-    const updateTopNavHeight = () => {
-      const topNav = document.querySelector(".top-navbar") as HTMLElement;
-      if (topNav) {
-        const height = `${topNav.offsetHeight}px`;
-        document.documentElement.style.setProperty(
-          "--top-navbar-height",
-          height
-        );
-      }
-    };
-
-    // Update on mount and window resize
-    updateTopNavHeight();
-    window.addEventListener("resize", updateTopNavHeight);
-
-    return () => window.removeEventListener("resize", updateTopNavHeight);
-  }, []);
-
   return (
     <body className={`${interClass} ${jostClass} ${poppinsClass} antialiased`}>
       <ThemeProvider
@@ -50,11 +30,7 @@ export default function MainLayoutWrapper({
         enableSystem
         disableTransitionOnChange
       >
-        {!isAdminRoute && (
-          <div className="fixed top-0 w-full z-50 flex flex-col">
-            <Navbar />
-          </div>
-        )}
+        {!isAdminRoute && <Navbar />}
         <main>{children}</main>
       </ThemeProvider>
     </body>

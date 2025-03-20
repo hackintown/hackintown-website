@@ -48,12 +48,18 @@ export default function Navbar() {
   return (
     <motion.header
       className={cn(
-        "fixed w-full z-50 bg-transparent top-0",
-        isScrolled && "shadow-sticky backdrop-blur-sm bg-white",
+        "fixed left-0 top-0 z-50 w-full py-4 transition-all duration-300 ease-in-out",
+        "backdrop-blur-md bg-transparent border-b border-border/5",
+        isScrolled
+          ? "shadow-lg bg-background/80 py-2"
+          : "bg-transparent border-transparent"
       )}
-      initial={{ y: -100 }} 
+      initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{
+        duration: 0.4,
+        ease: "easeInOut",
+      }}
     >
       <div className="container">
         <div className="flex h-16 items-center justify-between max-w-full">
