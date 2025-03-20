@@ -1,44 +1,9 @@
+import HeroSection from "@/components/Home/Hero";
+
 export default function Home() {
   return (
-    <div>
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>{" "}
-      <h1>Hello World</h1> <h1>Hello World</h1> <h1>Hello World</h1>
-    </div>
+    <section>
+      <HeroSection />
+    </section>
   );
 }

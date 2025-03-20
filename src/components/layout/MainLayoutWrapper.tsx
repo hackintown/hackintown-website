@@ -52,11 +52,10 @@ export default function MainLayoutWrapper({
       >
         {!isAdminRoute && (
           <div className="fixed top-0 w-full z-50 flex flex-col">
-            <TopNavbar />
             <Navbar />
           </div>
         )}
-          <main className={isAdminRoute ? "" : "pt-36 sm:pt-32"}>{children}</main>
+        <main>{children}</main>
       </ThemeProvider>
     </body>
   );

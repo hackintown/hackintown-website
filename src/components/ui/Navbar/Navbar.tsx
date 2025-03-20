@@ -48,13 +48,10 @@ export default function Navbar() {
   return (
     <motion.header
       className={cn(
-        "fixed w-full z-50 bg-background shadow-sm",
-        "top-[36px] sm:top-[36px] md:top-[41px]",
-        isScrolled && " !top-[64px] shadow-sm bg-opacity-95 backdrop-blur-sm",
-        "transition-all duration-300",
-        !isVisible && "-translate-y-full"
+        "fixed w-full z-50 bg-transparent top-0",
+        isScrolled && "shadow-sticky backdrop-blur-sm bg-white",
       )}
-      initial={{ y: -100 }}
+      initial={{ y: -100 }} 
       animate={{ y: 0 }}
       transition={{ duration: 0.3 }}
     >
