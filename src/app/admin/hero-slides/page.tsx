@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
-import { Pencil, Plus, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Upload } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import Loader from "@/components/ui/Loader";
 
@@ -18,6 +18,98 @@ interface IHeroSlide {
   ctaLink: string;
   createdAt: string;
   updatedAt: string;
+}
+
+// Add this component for image upload
+function ImageUpload({
+  onImageSelect,
+  currentImage
+}: {
+  onImageSelect: (url: string) => void;
+  currentImage?: string;
+}) {
+  const [isUploading, setIsUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState(currentImage);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsUploading(true);
+      const formData = new FormData();
+      formData.append("file", file);
+
+      // Show immediate preview using FileReader
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const dataUrl = reader.result as string;
+        setPreviewUrl(dataUrl);
+      };
+      reader.readAsDataURL(file);
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Upload failed");
+      }
+
+      const data = await response.json();
+      if (!data.url) throw new Error("No URL returned from server");
+
+      // Update form data with the actual URL
+      onImageSelect(data.url);
+      // Keep the data URL for preview
+      setPreviewUrl(data.url);
+      toast.success("Image uploaded successfully");
+    } catch (error) {
+      console.error("Upload error:", error);
+      toast.error("Failed to upload image");
+      // Revert preview on error
+      setPreviewUrl(currentImage);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center gap-4">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isUploading}
+        >
+          <Upload className="w-4 h-4 mr-2" />
+          {isUploading ? "Uploading..." : "Upload Image"}
+        </Button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          className="hidden"
+          accept="image/jpeg,image/png,image/webp"
+          onChange={handleFileSelect}
+        />
+      </div>
+
+      {previewUrl && (
+        <div className="relative h-40 w-full overflow-hidden rounded-md">
+          <Image
+            src={previewUrl}
+            alt="Preview"
+            fill
+            className="object-cover"
+            unoptimized={previewUrl.startsWith('data:')} // Skip optimization for data URLs
+          />
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function HeroSlidesManagement() {
@@ -187,25 +279,20 @@ export default function HeroSlidesManagement() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-1">Image URL</label>
+                <label className="block text-sm font-medium mb-1">Image</label>
+                <ImageUpload
+                  onImageSelect={(url) => setFormData({ ...formData, imageUrl: url })}
+                  currentImage={formData.imageUrl}
+                />
                 <input
                   type="url"
                   name="imageUrl"
                   value={formData.imageUrl}
                   onChange={handleInputChange}
-                  className="w-full p-2 border rounded-md"
+                  className="w-full p-2 border rounded-md mt-2"
+                  placeholder="Or enter image URL directly"
                   required
                 />
-                {formData.imageUrl && (
-                  <div className="mt-2 relative h-40 w-full overflow-hidden rounded-md">
-                    <Image
-                      src={formData.imageUrl}
-                      alt="Preview"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                )}
               </div>
 
               <div>

@@ -2,8 +2,6 @@
 
 import { useSelectedLayoutSegments } from "next/navigation";
 import { ThemeProvider } from "next-themes";
-import TopNavbar from "@/components/ui/Navbar/TopNavbar";
-import { useEffect } from "react";
 import Navbar from "../ui/Navbar/Navbar";
 
 interface MainLayoutWrapperProps {

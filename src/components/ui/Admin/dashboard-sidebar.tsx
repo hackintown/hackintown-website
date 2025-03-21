@@ -175,6 +175,11 @@ export function DashboardSidebar() {
                 href="/admin/secondary-hero"
                 isActive={pathname === "/admin/secondary-hero"}
               />
+              <NavSubItem
+                title="Hero Control"
+                href="/admin/hero-control"
+                isActive={pathname === "/admin/hero-control"}
+              />
             </NavItem>
             <NavItem
               title="Scrap Data"

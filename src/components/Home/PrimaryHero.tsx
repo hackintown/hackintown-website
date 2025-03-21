@@ -217,7 +217,7 @@ export default function Hero() {
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4">
                   <AnimatedTooltip items={formattedTeamMembers} />
-                  <div className="text-xs sm:text-sm text-foreground">
+                  <div className="text-xs sm:text-sm text-foreground px-2">
                     Meet our leadership team with
                     <span className="font-semibold text-foreground">
                       20+ years

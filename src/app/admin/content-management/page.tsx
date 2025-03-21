@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
-import { Pencil, Plus, Trash2, Users, Presentation, ChevronDown, ChevronUp } from "lucide-react";
+import { Pencil,Trash2, Users, Presentation, ChevronDown, ChevronUp } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import Loader from "@/components/ui/Loader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
