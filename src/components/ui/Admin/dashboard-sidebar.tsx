@@ -151,9 +151,29 @@ export function DashboardSidebar() {
               isCollapsed={!isOpen}
             >
               <NavSubItem
-                title="Hero Section"
+                title="Hero Content"
                 href="/admin/hero"
                 isActive={pathname === "/admin/hero"}
+              />
+              <NavSubItem
+                title="Hero Slides"
+                href="/admin/hero-slides"
+                isActive={pathname === "/admin/hero-slides"}
+              />
+              <NavSubItem
+                title="Team Members"
+                href="/admin/team-members"
+                isActive={pathname === "/admin/team-members"}
+              />
+              <NavSubItem
+                title="Content Management"
+                href="/admin/content-management"
+                isActive={pathname === "/admin/content-management"}
+              />
+              <NavSubItem
+                title="Secondary Hero"
+                href="/admin/secondary-hero"
+                isActive={pathname === "/admin/secondary-hero"}
               />
             </NavItem>
             <NavItem

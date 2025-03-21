@@ -1,11 +1,11 @@
-import HeroSection from "@/components/Home/Hero";
+import PrimaryHero from "@/components/Home/PrimaryHero";
+import SecondaryHero from "@/components/Home/SecondaryHero";
 
 export default function Home() {
   return (
     <section>
-      <HeroSection />
-      <HeroSection />
-      <HeroSection />
+      <PrimaryHero />
+      <SecondaryHero />
     </section>
   );
 }

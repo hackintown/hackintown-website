@@ -48,10 +48,10 @@ export default function Navbar() {
   return (
     <motion.header
       className={cn(
-        "fixed left-0 top-0 z-50 w-full py-4 transition-all duration-300 ease-in-out",
-        "backdrop-blur-md bg-transparent border-b border-border/5",
+        "fixed left-0 top-0 z-50 w-full bg-transparent py-4 transition-all duration-300 ease-in-out",
+        "border-b border-border/5",
         isScrolled
-          ? "shadow-lg bg-background/80 py-2"
+          ? "shadow-lg bg-background py-2"
           : "bg-transparent border-transparent"
       )}
       initial={{ y: -100 }}

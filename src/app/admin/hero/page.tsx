@@ -1,135 +1,86 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, useCallback } from "react";
-import { Plus, Pencil, Trash2 } from "lucide-react";
-import Image from "next/image";
-import HeroSlideModal from "@/components/Admin/HeroSlideModal";
+import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import Loader from "@/components/ui/Loader";
 
-interface IHeroSlide {
-  _id: string;
+interface HeroContent {
+  badge: string;
   title: string;
-  tagline: string;
   description: string;
-  imageUrl: string;
-  ctaLabel: string;
-  ctaLink: string;
-  createdAt: string;
-  updatedAt: string;
+  flipWords: string[];
+  buttonText: string;
 }
-  
-export default function HeroManagement() {
-  // State management with proper typing
-  const [slides, setSlides] = useState<IHeroSlide[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingSlide, setEditingSlide] = useState<IHeroSlide | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
-  // Memoized fetch function to prevent unnecessary recreations
-  const fetchSlides = useCallback(async () => {
-    try {
-      const response = await fetch("/api/hero-slides");
-      if (!response.ok) throw new Error("Failed to fetch slides");
-      const data = await response.json();
-      setSlides(data);
-    } catch (error) {
-      toast.error("Failed to fetch slides");
-      console.error("Fetch error:", error);
-    } finally {
-      setIsLoading(false);
-    }
+export default function HeroContentManagement() {
+  const [content, setContent] = useState<HeroContent>({
+    badge: "",
+    title: "",
+    description: "",
+    flipWords: [],
+    buttonText: "",
+  });
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [newFlipWord, setNewFlipWord] = useState("");
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const response = await fetch("/api/hero");
+        if (response.ok) {
+          const data = await response.json();
+          setContent(data);
+        }
+      } catch (error) {
+        console.error("Error fetching hero content:", error);
+        toast.error("Failed to load hero content");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchContent();
   }, []);
 
-  // Initial data fetch
-  useEffect(() => {
-    fetchSlides();
-  }, [fetchSlides]);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  // Handler for creating new slides
-  const handleCreateSlide = async (slideData: IHeroSlide) => {
     try {
-      const response = await fetch("/api/hero-slides", {
-        method: "POST",
+      const response = await fetch("/api/hero", {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(slideData),
+        body: JSON.stringify(content),
       });
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || "Failed to create slide");
+        throw new Error(error.error || "Failed to update hero content");
       }
 
-      await fetchSlides();
-      toast.success("Slide created successfully");
-      setIsModalOpen(false);
+      toast.success("Hero content updated successfully");
     } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Failed to create slide"
-      );
+      console.error("Error updating hero content:", error);
+      toast.error(error instanceof Error ? error.message : "Failed to update hero content");
     }
   };
 
-  // Handler for updating existing slides
-  const handleUpdateSlide = async (slideData: IHeroSlide) => {
-    if (!editingSlide?._id) {
-      toast.error("No slide selected for update");
-      return;
-    }
-
-    try {
-      const response = await fetch(`/api/hero-slides/${editingSlide._id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...slideData, _id: undefined }),
+  const addFlipWord = () => {
+    if (newFlipWord.trim()) {
+      setContent({
+        ...content,
+        flipWords: [...content.flipWords, newFlipWord.trim()]
       });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Failed to update slide");
-
-      // Optimistic update
-      setSlides((prevSlides) =>
-        prevSlides.map((slide) =>
-          slide._id === editingSlide._id
-            ? { ...data, _id: editingSlide._id }
-            : slide
-        )
-      );
-
-      toast.success("Slide updated successfully");
-      setIsModalOpen(false);
-      setEditingSlide(null);
-    } catch (error) {
-      console.error("Update error:", error);
-      toast.error(
-        error instanceof Error ? error.message : "Failed to update slide"
-      );
+      setNewFlipWord("");
     }
   };
 
-  // Handler for deleting slides with confirmation
-  const handleDeleteSlide = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this slide?")) return;
-
-    try {
-      const response = await fetch(`/api/hero-slides/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) throw new Error("Failed to delete slide");
-
-      // Optimistic update
-      setSlides((prevSlides) => prevSlides.filter((slide) => slide._id !== id));
-      toast.success("Slide deleted successfully");
-    } catch (error: unknown) {
-      console.error("Delete error:", error);
-      toast.error(
-        error instanceof Error ? error.message : "Failed to delete slide"
-      );
-      // Refetch slides in case of error to ensure UI consistency
-      fetchSlides();
-    }
+  const removeFlipWord = (index: number) => {
+    setContent({
+      ...content,
+      flipWords: content.flipWords.filter((_, i) => i !== index)
+    });
   };
 
   if (isLoading) {
@@ -141,86 +92,87 @@ export default function HeroManagement() {
   }
 
   return (
-    <div className="">
-      {/* Header Section */}
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">Hero Section Management</h1>
-        <Button
-          variant="primary"
-          className="flex items-center gap-2"
-          onClick={() => {
-            setEditingSlide(null);
-            setIsModalOpen(true);
-          }}
-          leftIcon={<Plus className="w-4 h-4" />}
-        >
-          Add New Slide
-        </Button>
-      </div>
+    <div className="container mx-auto py-8">
+      <h1 className="text-2xl font-bold mb-8">Hero Content Management</h1>
 
-      {/* Slides Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {slides.map((slide) => (
-          <div
-            key={slide._id}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden 
-                       transition-transform duration-200 hover:scale-[1.02]"
-          >
-            <div className="relative h-48">
-              <Image
-                src={slide.imageUrl}
-                alt={slide.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                priority={false}
-              />
-            </div>
-            <div className="p-4">
-              <h3 className="font-semibold text-lg mb-2">{slide.title}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
-                {slide.tagline}
-              </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                {slide.description}
-              </p>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-primary">{slide.ctaLabel}</span>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      setEditingSlide(slide);
-                      setIsModalOpen(true);
-                    }}
-                  >
-                    <Pencil className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => handleDeleteSlide(slide._id)}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-            </div>
+      <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl">
+        <div>
+          <label className="block text-sm font-medium mb-1">Badge Text</label>
+          <input
+            type="text"
+            value={content.badge}
+            onChange={(e) => setContent({ ...content, badge: e.target.value })}
+            className="w-full p-2 border rounded-md"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Title</label>
+          <input
+            type="text"
+            value={content.title}
+            onChange={(e) => setContent({ ...content, title: e.target.value })}
+            className="w-full p-2 border rounded-md"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Description</label>
+          <textarea
+            value={content.description}
+            onChange={(e) => setContent({ ...content, description: e.target.value })}
+            className="w-full p-2 border rounded-md"
+            rows={4}
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Flip Words</label>
+          <div className="flex gap-2 mb-2">
+            <input
+              type="text"
+              value={newFlipWord}
+              onChange={(e) => setNewFlipWord(e.target.value)}
+              className="flex-1 p-2 border rounded-md"
+              placeholder="Add new flip word"
+            />
+            <Button type="button" onClick={addFlipWord}>Add</Button>
           </div>
-        ))}
-      </div>
 
-      {/* Modal Component */}
-      <HeroSlideModal
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setEditingSlide(null);
-        }}
-        onSubmit={editingSlide ? handleUpdateSlide : handleCreateSlide}
-        initialData={editingSlide || undefined}
-      />
+          <div className="flex flex-wrap gap-2 mt-2">
+            {content.flipWords.map((word, index) => (
+              <div key={index} className="flex items-center bg-primary/10 rounded-full px-3 py-1">
+                <span className="mr-2">{word}</span>
+                <button
+                  type="button"
+                  onClick={() => removeFlipWord(index)}
+                  className="text-red-500 hover:text-red-700"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Button Text</label>
+          <input
+            type="text"
+            value={content.buttonText}
+            onChange={(e) => setContent({ ...content, buttonText: e.target.value })}
+            className="w-full p-2 border rounded-md"
+            required
+          />
+        </div>
+
+        <Button type="submit" variant="primary" className="mt-4">
+          Save Changes
+        </Button>
+      </form>
     </div>
   );
-}
+} 
