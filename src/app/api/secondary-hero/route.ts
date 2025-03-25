@@ -54,7 +54,8 @@ export async function POST(request: Request) {
     // Check if _id is "default" and handle it specially
     if (data._id === "default") {
       // Create a new record without the _id field
-      const { _id, ...newData } = data;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { _id, ...newData } = data; 
       
       const heroData = {
         ...newData,
@@ -76,11 +77,12 @@ export async function POST(request: Request) {
     // If there's an _id, update the existing record
     if (data._id && data._id !== "default") {
       try {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { _id, ...updateData } = heroData;
         const objectId = new ObjectId(_id);
         
         const result = await db.collection("secondaryHero").updateOne(
-          { _id: objectId },
+          { _id: objectId },  
           { $set: { ...updateData, updatedAt: new Date().toISOString() } }
         );
         
@@ -101,6 +103,7 @@ export async function POST(request: Request) {
       } catch (idError) {
         // If ObjectId conversion fails, create a new document
         console.error("Invalid ObjectId, creating new document instead:", idError);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { _id, ...newData } = heroData;
         
         const newResult = await db.collection("secondaryHero").insertOne({

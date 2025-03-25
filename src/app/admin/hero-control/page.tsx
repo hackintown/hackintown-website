@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
-import { ArrowUpDown, Eye, EyeOff } from "lucide-react";
+import { ArrowUpDown, Eye, EyeOff, SaveIcon } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import Loader from "@/components/ui/Loader";
 
@@ -108,6 +108,8 @@ export default function HeroControlPage() {
           onClick={handleSave}
           disabled={isSaving}
           variant="primary"
+          size="md"
+          leftIcon={<SaveIcon />}
         >
           {isSaving ? "Saving..." : "Save Changes"}
         </Button>
@@ -125,7 +127,7 @@ export default function HeroControlPage() {
               <p className="text-sm text-muted-foreground">Main hero section with slider</p>
             </div>
             <Button
-              variant="ghost"
+              variant="primary"
               size="icon"
               onClick={() => toggleVisibility('primary')}
               title={settings.primaryHeroVisible ? "Hide section" : "Show section"}

@@ -14,6 +14,7 @@ import { Button } from "../button";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -98,10 +99,8 @@ export default function Navbar() {
 }
 
 const Logo = () => (
-  <Link href="/" className="block text-2xl font-bold group">
-    <span className="text-2xl xl:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent whitespace-nowrap group-hover:from-accent group-hover:to-primary transition-all duration-500">
-      Hackintown
-    </span>
+  <Link href="/" className="text-2xl xl:text-3xl font-bold whitespace-nowrap text-primary">
+    Hackintown
   </Link>
 );
 

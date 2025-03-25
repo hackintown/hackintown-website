@@ -4,16 +4,17 @@ import SecondaryHero from "@/components/Home/SecondaryHero";
 import clientPromise from "@/lib/mongodb";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
+import FAQ from "@/components/ui/FAQ";
+import { OurClients } from "@/components/ui/OurClients/OurClients";
 async function getHeroControlSettings() {
   try {
     const client = await clientPromise;
     const db = client.db("hackintowndb");
-    
+
     const heroControl = await db.collection("heroControl").findOne({ id: "main" });
-    
-    return heroControl || { 
-      primaryHeroVisible: true, 
+
+    return heroControl || {
+      primaryHeroVisible: true,
       secondaryHeroVisible: true,
       primaryHeroOrder: 1,
       secondaryHeroOrder: 2
@@ -21,8 +22,8 @@ async function getHeroControlSettings() {
   } catch (error) {
     console.error("Error fetching hero control settings:", error);
     // Default fallback if there's an error
-    return { 
-      primaryHeroVisible: true, 
+    return {
+      primaryHeroVisible: true,
       secondaryHeroVisible: true,
       primaryHeroOrder: 1,
       secondaryHeroOrder: 2
@@ -32,10 +33,10 @@ async function getHeroControlSettings() {
 
 export default async function Home() {
   const heroSettings = await getHeroControlSettings();
-  
+
   // Create an array of hero components based on their order
   const heroComponents = [];
-  
+
   if (heroSettings.primaryHeroVisible) {
     heroComponents[heroSettings.primaryHeroOrder - 1] = (
       <Suspense fallback={<div className="h-screen animate-pulse bg-muted/20"></div>}>
@@ -43,7 +44,7 @@ export default async function Home() {
       </Suspense>
     );
   }
-  
+
   if (heroSettings.secondaryHeroVisible) {
     heroComponents[heroSettings.secondaryHeroOrder - 1] = (
       <Suspense fallback={<div className="h-screen animate-pulse bg-muted/20"></div>}>
@@ -51,10 +52,10 @@ export default async function Home() {
       </Suspense>
     );
   }
-  
+
   // Filter out any null entries (in case there are gaps in the order)
   const filteredHeroComponents = heroComponents.filter(Boolean);
-  
+
   return (
     <main>
       {/* Render hero sections based on visibility and order */}
@@ -76,9 +77,8 @@ export default async function Home() {
           </Link>
         </div>
       )}
-      
-      {/* Rest of your page content */}
-      {/* ... */}
+      <OurClients />
+      <FAQ />
     </main>
   );
 }

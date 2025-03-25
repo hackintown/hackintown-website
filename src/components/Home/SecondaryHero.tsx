@@ -4,8 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { IoArrowForwardOutline } from "react-icons/io5";
 import { motion, useAnimation, useInView } from "framer-motion";
+import { IoIosArrowForward } from "react-icons/io";
 
 interface ISecondaryHero {
     _id: string;
@@ -178,7 +178,7 @@ export default function SecondaryHero() {
                                 variant="primary"
                                 size="lg"
                                 className=""
-                                rightIcon={<IoArrowForwardOutline />}
+                                rightIcon={<IoIosArrowForward />}
                             >
                                 {heroData.ctaLabel}
                             </Button>

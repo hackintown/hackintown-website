@@ -56,7 +56,7 @@ export async function PUT(request: Request) {
         const db = client.db("hackintowndb");
 
         // Update or create the hero content
-        const result = await db.collection("hero-content").updateOne(
+        await db.collection("hero-content").updateOne(
             {}, // Empty filter to match any document
             {
                 $set: {

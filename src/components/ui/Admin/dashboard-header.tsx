@@ -34,10 +34,10 @@ export function DashboardHeader() {
         className="flex items-center gap-2 font-semibold lg:hidden"
       >
         <Package className="h-5 w-5 hidden md:block" />
-        <span className="sm:text-base font-semibold">News Archive</span>
+        <span className="sm:text-base font-semibold">Hackintown</span>
       </Link>
       <div className="hidden lg:block">
-        <h2 className="text-2xl font-bold">News Archive</h2>
+        <h2 className="text-2xl font-bold">Hackintown</h2>
       </div>
       <div className="flex flex-1 items-center justify-end gap-3">
         <DarkModeToggle />
