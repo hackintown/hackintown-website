@@ -16,11 +16,6 @@
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -90,14 +85,6 @@
   /* Light gray border */
   --input: #dee2e6;
   --ring: #007bff80;
-  /* Semi-transparent primary for focus rings */
-  --chart-1: #007bff;
-  --chart-2: #00c4b4;
-  --chart-3: #4dabf7;
-  /* Lighter blue variant */
-  --chart-4: #40c4ff;
-  /* Even lighter blue */
-  --chart-5: #001f3f;
   --radius: 0.5rem;
   --sidebar: #f1f3f5;
   /* Matches card for cohesion */
@@ -116,6 +103,7 @@
   /* Purple for futuristic accents */
   --shadow-color: #001f3f1a;
   /* 10% opacity of foreground */
+  --animation-duration: 20s;
 }
 
 .dark {
@@ -146,13 +134,7 @@
   /* Subtle dark gray border */
   --input: #30363d;
   --ring: #4a90e280;
-  --chart-1: #4a90e2;
-  --chart-2: #00d1b2;
-  --chart-3: #74c0fc;
-  /* Lighter blue for charts */
-  --chart-4: #66d9e8;
   /* Teal-blue variant */
-  --chart-5: #e6e6e6;
   --sidebar: #161b22;
   --sidebar-foreground: #e6e6e6;
   --sidebar-primary: #4a90e2;
@@ -258,5 +240,81 @@
     100% {
       transform: translateX(0);
     }
+  }
+
+  .pause-animation {
+    animation-play-state: paused;
+  }
+}
+
+/* ---------------------------------------
+   WHY CHOOSE US
+   --------------------------------------- */
+@layer components {
+  @keyframes slide-left {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-right {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-slide-left {
+    animation: slide-left 0.8s ease-out forwards;
+  }
+
+  .animate-slide-right {
+    animation: slide-right 0.8s ease-out forwards;
+  }
+}
+
+/* ---------------------------------------
+   MEET OUR TEAM
+   --------------------------------------- */
+@layer components {
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes rotating {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.8s ease-out forwards;
+  }
+
+  .animate-rotating {
+    animation: rotating 20s linear infinite;
   }
 }

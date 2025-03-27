@@ -6,6 +6,12 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import FAQ from "@/components/ui/FAQ";
 import { OurClients } from "@/components/ui/OurClients/OurClients";
+import OurProcess from "@/components/ui/OurProcess/OurProcess";
+import GetInTouch from "@/components/ui/Contact/GetInTouch";
+import Services from "@/components/Home/Services/Services";
+import TechStacks from "@/components/ui/TechStacks/TechStacks";
+import WhyChooseUs from "@/components/Home/WhyChooseUs";
+import MeetOurTeam from "@/components/ui/MeetOurTeam";
 async function getHeroControlSettings() {
   try {
     const client = await clientPromise;
@@ -77,7 +83,13 @@ export default async function Home() {
           </Link>
         </div>
       )}
+      <Services />
+      <WhyChooseUs />
+      <TechStacks />
+      <MeetOurTeam />
       <OurClients />
+      <OurProcess />
+      <GetInTouch />
       <FAQ />
     </main>
   );

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { IoIosArrowForward } from "react-icons/io";
-
+import { TextSkeleton } from "../ui/skeleton";
 interface ISecondaryHero {
     _id: string;
     tagline: string;
@@ -109,21 +109,7 @@ export default function SecondaryHero() {
     // If still loading or no data, show a minimal placeholder
     if (isLoading) {
         return (
-            <section className="relative overflow-hidden py-16 md:py-20 lg:py-24 xl:py-32">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="animate-pulse flex flex-col lg:flex-row lg:items-center">
-                        <div className="w-full lg:w-1/2 z-10 space-y-4">
-                            <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
-                            <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
-                            <div className="h-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
-                            <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
-                        </div>
-                        <div className="w-full lg:w-1/2 mt-12 lg:mt-0 h-[400px]">
-                            <div className="h-full bg-gray-200 dark:bg-gray-700 rounded"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <TextSkeleton className="h-[500px] w-full" />
         );
     }
 
