@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input";
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { toast } from "react-hot-toast";
