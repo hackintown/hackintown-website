@@ -53,7 +53,7 @@ export default function Navbar() {
         "border-b border-border/5",
         isScrolled
           ? "shadow-lg bg-background py-2"
-          : "bg-transparent border-transparent"
+          : "bg-transparent border-border"
       )}
       initial={{ y: -100 }}
       animate={{ y: 0 }}

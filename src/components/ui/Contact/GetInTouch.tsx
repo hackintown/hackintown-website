@@ -6,6 +6,7 @@ import { Loader2, Phone, Clock, Mail, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 import { NAVIGATION_MENUS } from "../Navbar/constants";
 import { Progress } from "@/components/ui/progress";
+import Link from "next/link";
 
 /**
  * ContactSection Component
@@ -107,7 +108,11 @@ export default function ContactSection() {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-foreground">Visit Us</h3>
-                                    <p className="text-muted-foreground">123 Hearing Care Lane, Delhi, 110001</p>
+                                    <p className="text-muted-foreground">
+                                        B-220, 1st Floor,<br />
+                                        New Ashok Nagar,<br />
+                                        New Delhi, INDIA - 110096
+                                    </p>
                                 </div>
                             </div>
 
@@ -117,7 +122,7 @@ export default function ContactSection() {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-foreground">Call Us</h3>
-                                    <p className="text-muted-foreground">+91 98102-30650</p>
+                                    <Link href="tel:+919810230650" className="text-muted-foreground hover:text-primary hover:underline transition-colors">+91 98102-30650</Link>
                                 </div>
                             </div>
 
@@ -127,7 +132,7 @@ export default function ContactSection() {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-foreground">Email Us</h3>
-                                    <p className="text-muted-foreground">info@hearingclinic.com</p>
+                                    <Link href="mailto:hackintowntech@gmail.com" className="text-muted-foreground hover:text-primary hover:underline transition-colors">hackintowntech@gmail.com</Link>
                                 </div>
                             </div>
 
@@ -137,7 +142,8 @@ export default function ContactSection() {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-foreground">Working Hours</h3>
-                                    <p className="text-muted-foreground">Mon - Sat: 9:00 AM - 7:00 PM</p>
+                                    <p className="text-muted-foreground">Mon - Fri: 9:00 AM - 7:00 PM</p>
+                                    <p className="text-muted-foreground">Saturday: Closed</p>
                                     <p className="text-muted-foreground">Sunday: Closed</p>
                                 </div>
                             </div>

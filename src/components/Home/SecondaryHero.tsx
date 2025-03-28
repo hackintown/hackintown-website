@@ -171,7 +171,7 @@ export default function SecondaryHero() {
 
                             <div className="flex flex-col">
                                 <Link
-                                    href="#"
+                                    href={`tel:${heroData.phoneNumber}`}
                                     className="text-lg font-medium text-foreground hover:text-primary transition-colors"
                                 >
                                     Call us {heroData.phoneNumber}
