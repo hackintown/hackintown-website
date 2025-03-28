@@ -3,7 +3,7 @@ import { Code2, Cloud, Globe, Smartphone, ShoppingCart, Shield, Settings, Networ
 export const homeServicesData = {
     title: "Services",
     subtitle: "Our",
-    description: "Comprehensive IT solutions tailored for your business success",
+    description: "We specialize in crafting custom platforms that elevate your online presence. Let us help you thrive in the digital landscape!",
     features: [
         {
             title: "MVP Development",

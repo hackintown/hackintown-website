@@ -1,154 +1,307 @@
-"use client"
+"use client";
 
-import type React from "react"
+import React, { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Send, Bot, User, Loader2 } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/Input";
 
-import { useState, useRef, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Send, Bot, User, Loader2 } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/Input"
-
+// Type Definitions
 type Message = {
-  id: string
-  content: string
-  sender: "bot" | "user"
-}
+  id: string;
+  content: string;
+  sender: "bot" | "user";
+  timestamp: number;
+};
 
 type FAQItem = {
-  question: string
-  answer: string
-  keywords: string[]
-}
+  question: string;
+  answer: string;
+  keywords: string[];
+};
 
-export default function ChatbotFAQ() {
-  const [input, setInput] = useState("")
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "welcome",
-      content:
-        "Hello! I'm your IT assistant. Ask me anything about our services, security practices, or technical support.",
-      sender: "bot",
-    },
-  ])
-  const [isTyping, setIsTyping] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+// Utility function for fuzzy matching
+const calculateMatchScore = (query: string, keywords: string[]): number => {
+  const normalizedQuery = query.toLowerCase().split(" ");
+  return keywords.reduce((score, keyword) => {
+    return normalizedQuery.some((word) => word.includes(keyword.toLowerCase()))
+      ? score + 1
+      : score;
+  }, 0);
+};
+
+export default function AdvancedChatbotFAQ() {
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<Message[]>(() => {
+    // Load from localStorage if available
+    const saved = localStorage.getItem("chatHistory");
+    return saved
+      ? JSON.parse(saved)
+      : [
+        {
+          id: "welcome",
+          content:
+            "Hello! I'm Hackintown's advanced IT assistant. Ask me about our custom software, cloud services, or anything else!",
+          sender: "bot",
+          timestamp: Date.now(),
+        },
+      ];
+  });
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const faqData: FAQItem[] = [
     {
-      question: "What IT services do you offer?",
+      question: "What services does Hackintown provide?",
       answer:
-        "We offer a comprehensive range of IT services including managed IT support, cloud solutions, cybersecurity, software development, data analytics, IT consulting, and digital transformation services. Each service can be customized to meet your specific business needs and objectives.",
-      keywords: ["services", "offer", "provide", "it services", "support"],
+        "Hackintown specializes in Custom Software Development (MVP Development, Custom Web Development, Mobile App Development, Bar Code Solutions, E-Commerce) and Cloud Services (AWS Development, Cloud Architecture, DevOps Services, Cloud Security). We deliver tailored solutions to meet your business needs.",
+      keywords: ["services", "software development", "cloud", "custom", "hackintown"],
     },
     {
-      question: "How do I get technical support?",
+      question: "What is Hackintown’s MVP Development service?",
       answer:
-        "You can reach our technical support team through multiple channels: 24/7 helpdesk at (555) 123-4567, email at support@techcompany.com, or through our client portal. For urgent issues, we have a dedicated emergency response team available at all times.",
-      keywords: ["technical support", "support", "help", "helpdesk", "contact", "assistance"],
+        "Hackintown’s MVP Development service helps you build scalable minimum viable products with core features to test your ideas quickly and efficiently. We focus on rapid development and iterative feedback to ensure your product succeeds.",
+      keywords: ["mvp", "development", "minimum viable product", "scalable", "hackintown"],
     },
     {
-      question: "What is your approach to cybersecurity?",
+      question: "Does Hackintown offer custom web and mobile app development?",
       answer:
-        "Our cybersecurity approach is based on a multi-layered defense strategy. We implement advanced threat protection, conduct regular security assessments, provide employee security awareness training, and develop comprehensive incident response plans. We also offer 24/7 security monitoring and stay current with emerging threats to ensure your systems remain protected.",
-      keywords: ["cybersecurity", "security", "protection", "threats", "hacking", "secure"],
+        "Yes, Hackintown provides Custom Web Development for modern web applications and Custom Mobile App Development for native and cross-platform apps. We create user-friendly, high-performance solutions tailored to your requirements.",
+      keywords: ["web development", "mobile app", "custom", "apps", "hackintown"],
     },
     {
-      question: "Do you offer cloud migration services?",
+      question: "What are Hackintown’s Bar Code Solutions?",
       answer:
-        "Yes, we specialize in cloud migration services. Our team will assess your current infrastructure, develop a tailored migration strategy, and execute a seamless transition to the cloud platform that best suits your needs (AWS, Azure, Google Cloud, or hybrid solutions). We ensure minimal disruption to your operations during the migration process.",
-      keywords: ["cloud", "migration", "aws", "azure", "google cloud", "move to cloud"],
+        "Hackintown’s Bar Code Solutions include custom software for inventory management and tracking systems. We design efficient, reliable tools to streamline your business operations.",
+      keywords: ["barcode", "inventory", "tracking", "solutions", "hackintown"],
     },
     {
-      question: "What industries do you serve?",
+      question: "Can Hackintown build an E-Commerce platform for my business?",
       answer:
-        "We serve a wide range of industries including healthcare, finance, manufacturing, education, retail, professional services, and non-profit organizations. Our team has specialized knowledge in industry-specific regulations and compliance requirements, allowing us to deliver solutions that address the unique challenges of each sector.",
-      keywords: ["industries", "sectors", "clients", "companies", "businesses", "serve"],
+        "Yes, Hackintown offers custom E-Commerce solutions to create online stores with features like secure payments, product management, and user-friendly interfaces, designed to boost your sales.",
+      keywords: ["e-commerce", "online store", "custom", "sales", "hackintown"],
     },
     {
-      question: "How do you ensure data privacy?",
+      question: "What cloud services does Hackintown offer?",
       answer:
-        "We ensure data privacy through a combination of technical controls, administrative safeguards, and physical security measures. This includes data encryption (both in transit and at rest), access controls, regular security audits, and strict adherence to privacy regulations such as GDPR, HIPAA, and CCPA. We also provide data privacy training to all our staff and implement data minimization practices.",
-      keywords: ["privacy", "data privacy", "gdpr", "hipaa", "confidential", "secure data"],
+        "Hackintown provides AWS Development, Cloud Architecture, DevOps Services (CI/CD and automation), and Cloud Security. We help you design, deploy, and secure scalable cloud infrastructures.",
+      keywords: ["cloud", "aws", "devops", "security", "architecture", "hackintown"],
     },
-  ]
+    {
+      question: "How does Hackintown ensure cloud security?",
+      answer:
+        "Hackintown’s Cloud Security services include advanced protection measures, encryption, regular audits, and compliance with industry standards to safeguard your cloud-based systems from threats.",
+      keywords: ["cloud security", "protection", "secure", "threats", "hackintown"],
+    },
+    {
+      question: "Which industries does Hackintown serve?",
+      answer:
+        "Hackintown serves industries like Beauty & Salon, Home Services, Handyman, Car Washing, Taxi Apps, Food Delivery, Grocery Delivery, and On-Demand services, delivering industry-specific app and software solutions.",
+      keywords: ["industries", "sectors", "on-demand", "apps", "hackintown"],
+    },
+    {
+      question: "Can Hackintown develop an on-demand app for my business?",
+      answer:
+        "Yes, Hackintown excels in On-Demand app development, including solutions for Beauty & Salon, Home Services, Handyman, Car Washing, Taxi, Food Delivery, and Grocery Delivery. We build apps that connect your services to customers seamlessly.",
+      keywords: ["on-demand", "app", "development", "services", "hackintown"],
+    },
+    {
+      question: "Does Hackintown offer solutions for food and grocery delivery?",
+      answer:
+        "Hackintown provides custom Food Delivery and Grocery Delivery app development, enabling businesses to offer convenient ordering and delivery services with real-time tracking and secure payments.",
+      keywords: ["food delivery", "grocery delivery", "app", "custom", "hackintown"],
+    },
+    {
+      question: "What is Hackintown’s expertise in taxi app development?",
+      answer:
+        "Hackintown develops Taxi Apps with features like ride booking, driver tracking, and payment integration, providing reliable and user-friendly solutions for transportation businesses.",
+      keywords: ["taxi app", "ride", "booking", "development", "hackintown"],
+    },
+    {
+      question: "How can Hackintown help with beauty and salon services?",
+      answer:
+        "Hackintown builds Beauty & Salon apps that allow customers to book appointments, browse services, and pay online, helping salons streamline operations and enhance customer experience.",
+      keywords: ["beauty", "salon", "app", "booking", "hackintown"],
+    },
+    {
+      question: "What support does Hackintown offer for home services and handyman apps?",
+      answer:
+        "Hackintown creates Home Services and Handyman Apps for scheduling professional maintenance, repairs, and installations, connecting service providers with customers efficiently.",
+      keywords: ["home services", "handyman", "app", "scheduling", "hackintown"],
+    },
+    {
+      question: "Does Hackintown provide car washing app development?",
+      answer:
+        "Yes, Hackintown develops Car Washing Apps with features like service booking, location tracking, and payment options, making car cleaning convenient for users.",
+      keywords: ["car washing", "app", "booking", "development", "hackintown"],
+    },
+    {
+      question: "How do I contact Hackintown for support or inquiries?",
+      answer:
+        "You can reach Hackintown at (555) 123-4567, email us at info@hackintown.com, or visit our Contact Us page at /contact-us. We’re here to assist with all your questions!",
+      keywords: ["contact", "support", "inquiry", "help", "hackintown"],
+    },
+    {
+      question: "What can I learn about Hackintown from the Insights section?",
+      answer:
+        "The Insights section includes About Us, Blog, Awards & Recognition, Careers, Partnership opportunities, and FAQs. It’s a great way to learn about our team, achievements, and how we can collaborate.",
+      keywords: ["insights", "about us", "blog", "careers", "partnership", "hackintown"],
+    },
+    {
+      question: "Does Hackintown offer career opportunities?",
+      answer:
+        "Yes, Hackintown is always looking for talent! Check our Careers page at /careers for current openings and join our team of innovative IT experts.",
+      keywords: ["careers", "jobs", "hiring", "team", "hackintown"],
+    },
+    {
+      question: "Can my company partner with Hackintown?",
+      answer:
+        "Hackintown welcomes partnerships! Visit /partnership to explore collaboration opportunities and how we can work together to deliver cutting-edge solutions.",
+      keywords: ["partnership", "collaborate", "business", "solutions", "hackintown"],
+    },
+    {
+      question: "Where can I see Hackintown’s past projects?",
+      answer:
+        "Explore our Portfolio at /portfolio to see examples of our custom software, cloud solutions, and on-demand apps we’ve built for clients across various industries.",
+      keywords: ["portfolio", "projects", "work", "examples", "hackintown"],
+    },
+    {
+      question: "How do I get started with Hackintown?",
+      answer:
+        "To begin, contact us via /contact-us or email info@hackintown.com. We’ll discuss your needs, propose a tailored solution, and kick off your project with Hackintown!",
+      keywords: ["get started", "begin", "contact", "project", "hackintown"],
+    },
+  ];
 
+
+  // Save messages to localStorage
+  useEffect(() => {
+    localStorage.setItem("chatHistory", JSON.stringify(messages));
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  // Advanced answer finder with scoring
   const findAnswer = (query: string): string => {
-    const normalizedQuery = query.toLowerCase()
+    const normalizedQuery = query.toLowerCase();
 
-    // First try to find direct question matches
-    const directMatch = faqData.find((item) => item.question.toLowerCase() === normalizedQuery)
+    // Direct question match
+    const directMatch = faqData.find((item) => item.question.toLowerCase() === normalizedQuery);
+    if (directMatch) return directMatch.answer;
 
-    if (directMatch) return directMatch.answer
+    // Score-based keyword matching
+    const scoredMatches = faqData
+      .map((item) => ({
+        ...item,
+        score: calculateMatchScore(normalizedQuery, item.keywords),
+      }))
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score);
 
-    // Then look for keyword matches
-    const keywordMatches = faqData.filter((item) =>
-      item.keywords.some((keyword) => normalizedQuery.includes(keyword.toLowerCase())),
-    )
-
-    if (keywordMatches.length > 0) {
-      // Return the answer with the most keyword matches
-      return keywordMatches[0].answer
+    if (scoredMatches.length > 0) {
+      return scoredMatches[0].answer;
     }
 
-    // Default response if no matches
-    return "I don't have specific information about that. Would you like to ask about our IT services, cybersecurity, cloud solutions, or technical support? Alternatively, you can contact our team directly for more assistance."
-  }
+    // Fallback response with context suggestion
+    const lastUserMessage = messages.filter((m) => m.sender === "user").slice(-2, -1)[0];
+    return lastUserMessage
+      ? "I couldn’t find a match. Did you mean something related to '" +
+      lastUserMessage.content +
+      "'? Try rephrasing or ask about our services!"
+      : "I don’t have an answer for that yet. Try asking about our IT services, cloud solutions, or contact us at info@hackintown.com!";
+  };
 
-  const handleSend = () => {
-    if (input.trim() === "") return
+  // Simulate typing effect
+  const typeMessage = async (content: string): Promise<string> => {
+    return new Promise((resolve) => {
+      let currentText = "";
+      const interval = setInterval(() => {
+        if (currentText.length < content.length) {
+          currentText = content.slice(0, currentText.length + 1);
+          setMessages((prev) => {
+            const lastMessage = prev[prev.length - 1];
+            if (lastMessage.sender === "bot" && lastMessage.id.startsWith("typing-")) {
+              return [...prev.slice(0, -1), { ...lastMessage, content: currentText }];
+            }
+            return prev;
+          });
+        } else {
+          clearInterval(interval);
+          resolve(content);
+        }
+      }, 20); // Adjust typing speed here
+    });
+  };
 
-    // Add user message
+  const handleSend = async () => {
+    if (input.trim() === "") return;
+
     const userMessage: Message = {
       id: Date.now().toString(),
       content: input,
       sender: "user",
-    }
+      timestamp: Date.now(),
+    };
 
-    setMessages((prev) => [...prev, userMessage])
-    setInput("")
-    setIsTyping(true)
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
+    setIsTyping(true);
 
-    // Simulate bot thinking and typing
-    setTimeout(() => {
-      const botResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        content: findAnswer(input),
-        sender: "bot",
-      }
+    // Simulate API delay and typing
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Mock API delay
+    const botResponseContent = findAnswer(input);
+    const botMessage: Message = {
+      id: `typing-${Date.now()}`,
+      content: "",
+      sender: "bot",
+      timestamp: Date.now(),
+    };
 
-      setMessages((prev) => [...prev, botResponse])
-      setIsTyping(false)
-    }, 1500)
-  }
+    setMessages((prev) => [...prev, botMessage]);
+    await typeMessage(botResponseContent);
+
+    // Finalize bot message
+    setMessages((prev) => {
+      const updated = prev.slice(0, -1);
+      return [
+        ...updated,
+        { ...prev[prev.length - 1], id: (Date.now() + 1).toString(), content: botResponseContent },
+      ];
+    });
+    setIsTyping(false);
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSend()
+    if (e.key === "Enter" && !isTyping) handleSend();
+  };
+
+  // Dynamic suggested questions based on conversation
+  const getSuggestedQuestions = () => {
+    const lastBotMessage = messages.filter((m) => m.sender === "bot").slice(-1)[0]?.content || "";
+    if (lastBotMessage.includes("services")) {
+      return [
+        "What is MVP Development?",
+        "Can you build an E-Commerce platform?",
+        "What cloud services do you offer?",
+      ];
     }
-  }
-
-  // Auto-scroll to bottom when messages change
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages])
-
-  // Suggested questions
-  const suggestedQuestions = [
-    "What IT services do you offer?",
-    "How do I get technical support?",
-    "What is your approach to cybersecurity?",
-    "Do you offer cloud migration services?",
-  ]
+    return [
+      "What services does Hackintown provide?",
+      "How do I contact Hackintown?",
+      "Which industries do you serve?",
+    ];
+  };
 
   return (
     <div className="max-w-3xl mx-auto border rounded-xl shadow-sm overflow-hidden bg-card">
       <div className="border-b p-4 bg-muted/30">
         <div className="flex items-center gap-2">
           <Bot className="h-5 w-5 text-primary" />
-          <h2 className="font-semibold">IT Support Assistant</h2>
+          <h2 className="font-semibold">Hackintown IT Assistant</h2>
         </div>
-        <p className="text-sm text-muted-foreground mt-1">Ask me anything about our IT services and solutions</p>
+        <p className="text-sm text-muted-foreground mt-1">
+          Your advanced guide to Hackintown’s IT solutions
+        </p>
       </div>
 
       <div className="h-[400px] overflow-y-auto p-4 flex flex-col gap-4">
@@ -186,16 +339,19 @@ export default function ChatbotFAQ() {
                   `}
                 >
                   {message.content}
+                  <span className={`cn{
+                    message.sender === "bot" ? "text-muted-foreground" : "text-primary-foreground"
+                  } text-xs block mt-1`}>
+                    {new Date(message.timestamp).toLocaleTimeString()}
+                  </span>
                 </div>
               </div>
             </motion.div>
           ))}
-
           {isTyping && (
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex justify-start">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start">
               <div className="flex gap-3 max-w-[80%]">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/placeholder.svg?height=32&width=32" />
                   <AvatarFallback className="bg-primary text-primary-foreground">
                     <Bot className="h-4 w-4" />
                   </AvatarFallback>
@@ -210,16 +366,16 @@ export default function ChatbotFAQ() {
         <div ref={messagesEndRef} />
       </div>
 
-      {messages.length === 1 && (
+      {messages.length <= 2 && (
         <div className="px-4 pb-4">
-          <p className="text-sm text-muted-foreground mb-2">Suggested questions:</p>
+          <p className="text-sm text-muted-foreground mb-2">Try asking:</p>
           <div className="flex flex-wrap gap-2">
-            {suggestedQuestions.map((question, index) => (
+            {getSuggestedQuestions().map((question, index) => (
               <button
                 key={index}
                 onClick={() => {
-                  setInput(question)
-                  setTimeout(() => handleSend(), 100)
+                  setInput(question);
+                  setTimeout(() => handleSend(), 100);
                 }}
                 className="text-sm bg-muted hover:bg-muted/80 text-muted-foreground px-3 py-1.5 rounded-full transition-colors"
               >
@@ -236,7 +392,7 @@ export default function ChatbotFAQ() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Type your question here..."
+            placeholder="Ask me anything..."
             className="flex-1"
             disabled={isTyping}
           />
@@ -246,6 +402,5 @@ export default function ChatbotFAQ() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

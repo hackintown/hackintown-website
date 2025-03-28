@@ -89,8 +89,8 @@ export default async function Home() {
       <MeetOurTeam />
       <OurClients />
       <OurProcess />
-      <GetInTouch />
       <FAQ />
+      <GetInTouch />
     </main>
   );
 }

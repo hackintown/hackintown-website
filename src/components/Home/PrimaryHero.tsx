@@ -161,8 +161,8 @@ export default function Hero() {
   }));
 
   return (
-    <section className="relative overflow-hidden bg-background">
-      <div className="container relative mx-auto px-4 py-20 sm:py-32">
+    <section className="relative overflow-hidden bg-background py-28 md:pt-32 lg:pt-36">
+      <div className="container relative">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
           {/* Left Column */}
           <motion.div

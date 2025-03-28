@@ -20,11 +20,11 @@ export const OurClients = () => {
   } as const;
 
   return (
-    <section className="py-24 bg-primary/5 overflow-hidden">
+    <section className="py-10 lg:py-20 bg-primary/5 overflow-hidden">
       <div className="container">
         <motion.div {...motionProps} className="text-center mb-16">
           <TextWithLines text="Our Clients" className="mb-4" />
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center tracking-tight mb-4">
+          <h2 className="title">
             Our&nbsp;
             <span className="text-primary mt-2">Clients</span>
           </h2>
@@ -34,7 +34,7 @@ export const OurClients = () => {
           </p>
         </motion.div>
 
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col gap-2 sm:gap-4 md:gap-6 lg:gap-8">
           <InfiniteMovingCards
             items={[...PARTNERS_DATA.left, ...PARTNERS_DATA.left, ...PARTNERS_DATA.left, ...PARTNERS_DATA.left]}
             direction="left"

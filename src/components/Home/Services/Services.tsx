@@ -4,8 +4,10 @@ import { homeServicesData } from "./constant";
 export default function Services() {
     return (
         <div className="py-12">
-            <ServicesCard {...homeServicesData} />
+            <div className="container">
+                <ServicesCard {...homeServicesData} />
+            </div>
         </div>
     );
-}   
+}
 

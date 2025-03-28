@@ -3,7 +3,7 @@ export const ProcessData = [
       icon: "/images/process1.webp",
       title: "Listen",
       description:
-        "At Avya Technology, we listen to your WordPress website development needs",
+        "At Hackintown, we listen to your WordPress website development needs",
       shape: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
       gradient: "bg-gradient-to-b from-[#BDE3F9] via-[#BDE3F9] to-[#FFFFFF]",
     },
@@ -11,7 +11,7 @@ export const ProcessData = [
       icon: "/images/process2.webp",
       title: "Research",
       description:
-        "At Avya Technology, we listen to your WordPress website development needs",
+        "At Hackintown, we listen to your WordPress website development needs",
       shape: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
       gradient: "bg-gradient-to-b from-[#FFFFFF] via-[#FFFFFF] to-[#BDE3F9]",
     },

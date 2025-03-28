@@ -3,6 +3,7 @@
 import React, { useState, FormEvent } from "react";
 import Link from "next/link";
 import { FaTwitter, FaLinkedin, FaGithub } from "react-icons/fa";
+import { motion } from "framer-motion"; // Added for subtle animations
 
 const Footer: React.FC = () => {
     const [email, setEmail] = useState<string>("");
@@ -13,174 +14,171 @@ const Footer: React.FC = () => {
         if (email) {
             setSubscribed(true);
             setEmail("");
-            setTimeout(() => setSubscribed(false), 3000); // Reset after 3s
+            setTimeout(() => setSubscribed(false), 3000); // Reset subscription message
         }
     };
 
     const currentYear = new Date().getFullYear();
 
+    // Animation variants for subtle fade-in effects
+    const fadeIn = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+    };
+
     return (
-        <footer className="relative overflow-hidden bg-sidebar py-12 text-sidebar-foreground">
-            {/* Background Gradient Overlay (Futuristic Effect) */}
-            <div className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-secondary/20 opacity-50 pointer-events-none" />
+        <footer className="relative overflow-hidden bg-background py-12 text-foreground">
+            {/* Enhanced Background Effect */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent opacity-70 pointer-events-none" />
 
             {/* Main Footer Container */}
-            <div className="container relative z-10 grid grid-cols-1 gap-8 md:grid-cols-4">
+            <div className="container mx-auto px-4 relative z-10 grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
                 {/* Company Info Section */}
-                <div className="space-y-4">
-                    <h3 className="text-xl lg:text-3xl font-semibold text-primary">Hackintown</h3>
-                    <p className="text-sm text-muted-foreground">
-                        Pioneering IT solutions for a connected world. Innovate with us.
+                <motion.div
+                    className="space-y-4"
+                    initial="hidden"
+                    whileInView="visible"
+                    variants={fadeIn}
+                    viewport={{ once: true }}
+                >
+                    <h3 className="text-2xl font-bold tracking-tight text-primary md:text-3xl">
+                        Hackintown
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                        Empowering innovation with cutting-edge IT solutions for a digital future.
                     </p>
                     <div className="flex space-x-4">
-                        <Link
-                            href="https://twitter.com"
-                            target="_blank"
-                            className="group text-accent transition-all duration-300 hover:text-accent/80"
-                        >   
-                            <FaTwitter className="h-6 w-6 transform transition-transform group-hover:scale-110" />
-                        </Link>
-                        <Link
-                            href="https://linkedin.com"
-                            target="_blank"
-                            className="group text-accent transition-all duration-300 hover:text-accent/80"
-                        >
-                            <FaLinkedin className="h-6 w-6 transform transition-transform group-hover:scale-110" />
-                        </Link>
-                        <Link
-                            href="https://github.com"
-                            target="_blank"
-                            className="group text-accent transition-all duration-300 hover:text-accent/80"
-                        >
-                            <FaGithub className="h-6 w-6 transform transition-transform group-hover:scale-110" />
-                        </Link>
+                        {[
+                            { href: "https://www.twitter.com/hackintown", Icon: FaTwitter },
+                            { href: "https://www.linkedin.com/company/hackintown", Icon: FaLinkedin },
+                            { href: "https://www.github.com/hackintown", Icon: FaGithub },
+                        ].map(({ href, Icon }, idx) => (
+                            <Link
+                                key={idx}
+                                href={href}
+                                target="_blank"
+                                className="group text-muted-foreground transition-all duration-300 hover:text-primary"
+                            >
+                                <Icon className="h-6 w-6 transform transition-transform group-hover:scale-110" />
+                            </Link>
+                        ))}
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Quick Links Section */}
-                <div className="space-y-4">
-                    <h4 className="text-lg font-medium text-foreground/80">Quick Links</h4>
+                <motion.div
+                    className="space-y-4"
+                    initial="hidden"
+                    whileInView="visible"
+                    variants={fadeIn}
+                    viewport={{ once: true }}
+                >
+                    <h4 className="text-lg font-semibold text-foreground">Quick Links</h4>
                     <ul className="space-y-2 text-sm">
-                        <li>
-                            <Link
-                                href="/about"
-                                className="text-muted-foreground transition-colors hover:text-primary"
-                            >
-                                About Us
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/services"
-                                className="text-muted-foreground transition-colors hover:text-primary"
-                            >
-                                Services
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/careers"
-                                className="text-muted-foreground transition-colors hover:text-primary"
-                            >
-                                Careers
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/contact"
-                                className="text-muted-foreground transition-colors hover:text-primary"
-                            >
-                                Contact
-                            </Link>
-                        </li>
+                        {[
+                            { href: "/about", label: "About Us" },
+                            { href: "/services", label: "Services" },
+                            { href: "/careers", label: "Careers" },
+                            { href: "/contact", label: "Contact" },
+                        ].map(({ href, label }) => (
+                            <li key={href}>
+                                <Link
+                                    href={href}
+                                    className="text-muted-foreground transition-colors hover:text-primary"
+                                >
+                                    {label}
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
-                </div>
+                </motion.div>
 
                 {/* Services Section */}
-                <div className="space-y-4">
-                    <h4 className="text-lg font-medium text-foreground/80">Our Services</h4>
+                <motion.div
+                    className="space-y-4"
+                    initial="hidden"
+                    whileInView="visible"
+                    variants={fadeIn}
+                    viewport={{ once: true }}
+                >
+                    <h4 className="text-lg font-semibold text-foreground">Our Services</h4>
                     <ul className="space-y-2 text-sm">
-                        <li>
-                            <Link
-                                href="/services/cloud"
-                                className="text-muted-foreground transition-colors hover:text-primary"
-                            >
-                                Cloud Solutions
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/services/ai"
-                                className="text-muted-foreground transition-colors hover:text-primary"
-                            >
-                                AI & Machine Learning
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/services/devops"
-                                className="text-muted-foreground transition-colors hover:text-primary"
-                            >
-                                DevOps
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/services/cybersecurity"
-                                className="text-muted-foreground transition-colors hover:text-primary"
-                            >
-                                Cybersecurity
-                            </Link>
-                        </li>
+                        {[
+                            { href: "/services/cloud", label: "Cloud Solutions" },
+                            { href: "/services/ai", label: "AI & Machine Learning" },
+                            { href: "/services/devops", label: "DevOps" },
+                            { href: "/services/cybersecurity", label: "Cybersecurity" },
+                        ].map(({ href, label }) => (
+                            <li key={href}>
+                                <Link
+                                    href={href}
+                                    className="text-muted-foreground transition-colors hover:text-primary"
+                                >
+                                    {label}
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
-                </div>
+                </motion.div>
 
                 {/* Newsletter Signup Section */}
-                <div className="space-y-4">
-                    <h4 className="text-lg font-medium text-foreground/80">Stay Updated</h4>
+                <motion.div
+                    className="space-y-4"
+                    initial="hidden"
+                    whileInView="visible"
+                    variants={fadeIn}
+                    viewport={{ once: true }}
+                >
+                    <h4 className="text-lg font-semibold text-foreground">Stay Updated</h4>
                     <p className="text-sm text-muted-foreground">
-                        Subscribe to our newsletter for the latest tech insights.
+                        Join our newsletter for exclusive tech updates.
                     </p>
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
                         <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter your email"
-                            className="rounded-md border border-input bg-background/95 px-4 py-2 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                            placeholder="Your email address"
+                            className="w-full rounded-lg border border-border bg-card px-4 py-2 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
                             required
                         />
                         <button
                             type="submit"
-                            className="rounded-md bg-primary px-4 py-2 text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg"
+                            className="w-full rounded-lg bg-primary px-4 py-2 text-primary-foreground font-medium transition-all hover:bg-primary/90 hover:shadow-md active:scale-95"
                         >
                             Subscribe
                         </button>
                     </form>
                     {subscribed && (
-                        <p className="text-sm text-success animate-fade-in">
-                            Thanks for subscribing!
-                        </p>
+                        <motion.p
+                            className="text-sm text-success"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                        >
+                            Subscription successful!
+                        </motion.p>
                     )}
-                </div>
+                </motion.div>
             </div>
 
             {/* Bottom Bar */}
-            <div className="container mt-8 border-t border-sidebar-border pt-6 text-center text-sm text-muted-foreground">
+            <div className="container mx-auto px-4 mt-10 border-t border-border pt-6 text-center text-sm text-muted-foreground">
                 <p>
-                    &copy; {currentYear} TechNova. All rights reserved. |{" "}
-                    <Link href="/privacy" className="hover:text-primary">
+                    © {currentYear} Hackintown. All rights reserved. |{" "}
+                    <Link href="/privacy" className="hover:text-primary transition-colors">
                         Privacy Policy
                     </Link>{" "}
                     |{" "}
-                    <Link href="/terms" className="hover:text-primary">
+                    <Link href="/terms" className="hover:text-primary transition-colors">
                         Terms of Service
                     </Link>
                 </p>
             </div>
 
-            {/* Floating Tech Orb (Decorative Element) */}
-            <div className="absolute bottom-0 right-0 h-32 w-32 translate-x-1/3 translate-y-1/3 rounded-full bg-gradient-to-br from-highlight to-primary/50 opacity-20 blur-3xl md:h-64 md:w-64" />
+            {/* Decorative Elements */}
+            <div className="absolute bottom-0 right-0 h-40 w-40 translate-x-1/4 translate-y-1/4 rounded-full bg-primary/20 blur-3xl md:h-64 md:w-64" />
+            <div className="absolute top-0 left-0 h-32 w-32 -translate-x-1/4 -translate-y-1/4 rounded-full bg-highlight/20 blur-3xl md:h-48 md:w-48" />
         </footer>
     );
 };

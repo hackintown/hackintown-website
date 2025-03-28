@@ -21,11 +21,11 @@ const TechStackTabs = () => {
                     className="max-w-7xl mx-auto mb-8 lg:mb-16 flex flex-col items-center justify-center"
                 >
                     <TextWithLines text="Tech Stack" className="mb-4" />
-                    <h2 className="text-3xl font-bold text-center tracking-tight sm:text-4xl lg:text-5xl mb-4">
+                    <h2 className="title">
                         Tech Stack&nbsp;
                         <span className="text-primary">We Use</span>
                     </h2>
-                    <p className="mt-4 max-w-3xl mx-auto text-base lg:text-lg text-muted-foreground text-center">
+                    <p className="sub-title">
                         We use the latest technology and industry expertise to build top-end
                         Android and iOS-based applications that add value to the business and
                         user experience.
@@ -33,7 +33,7 @@ const TechStackTabs = () => {
                 </motion.div>
 
                 {/* Tabs Navigation */}
-                <div className="flex flex-wrap justify-center gap-6 mb-12 w-fit mx-auto">
+                <div className="flex flex-wrap justify-center gap-4 md:gap-6 mb-12 w-fit mx-auto">
                     {techStacks.map((tab) => (
                         <button
                             key={tab.name}
@@ -61,7 +61,7 @@ const TechStackTabs = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.4 }}
-                    className="rounded-xl p-8 bg-card/50 backdrop-blur-sm shadow-sm border border-border/50 overflow-hidden"
+                    className="rounded-xl p-4 md:p-6 lg:p-8 bg-card/50 backdrop-blur-sm shadow-sm border border-border overflow-hidden"
                 >
                     <div
                         className="relative w-full"

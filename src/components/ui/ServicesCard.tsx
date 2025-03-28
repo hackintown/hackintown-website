@@ -33,37 +33,39 @@ interface ServicesCardProps {
 export default function ServicesCard({ title, subtitle, description, features }: ServicesCardProps): JSX.Element {
     return (
         <div className="">
-            <div className="flex flex-col justify-center items-center mb-16">
-                <TextWithLines text={title} className="mb-4" />
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center tracking-tight mb-4">
-                    {subtitle}&nbsp;
-                    <span className="text-primary mt-2">{title}</span>
-                </h2>
-                <p className="text-muted-foreground text-sm sm:text-base font-light max-w-2xl mx-auto">
-                    {description}
-                </p>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 md:gap-4 max-w-7xl mx-auto">
-                {features.map((feature) => (
-                    <div
-                        key={feature.title}
-                        className="relative bg-background p-6 rounded-3xl overflow-hidden shadow-sm border border-border flex flex-col justify-between"
-                    >
-                        <Grid size={20} />
-                        <div className="p-3 rounded-lg text-primary">
-                            {<feature.icon className="size-10" />}
+            <div className="container">
+                <div className="flex flex-col justify-center items-center mb-16">
+                    <TextWithLines text={title} className="mb-4" />
+                    <h2 className="title">
+                        {subtitle}&nbsp;
+                        <span className="text-primary mt-2">{title}</span>
+                    </h2>
+                    <p className="sub-title">
+                        {description}
+                    </p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
+                    {features.map((feature) => (
+                        <div
+                            key={feature.title}
+                            className="relative bg-background p-6 rounded-3xl overflow-hidden shadow-sm border border-border flex flex-col justify-between"
+                        >
+                            <Grid size={20} />
+                            <div className="p-3 rounded-lg text-primary">
+                                {<feature.icon className="size-10" />}
+                            </div>
+                            <p className="text-base lg:text-lg font-bold text-foreground relative z-20">{feature.title}</p>
+                            <p className="text-muted-foreground mt-4 text-base font-normal relative z-20">
+                                {feature.description}
+                            </p>
+                            <ReadMoreButton
+                                text="Learn More"
+                                variant="primary"
+                                className="mt-1"
+                            />
                         </div>
-                        <p className="text-base lg:text-lg font-bold text-foreground relative z-20">{feature.title}</p>
-                        <p className="text-muted-foreground mt-4 text-base font-normal relative z-20">
-                            {feature.description}
-                        </p>
-                        <ReadMoreButton
-                            text="Learn More"
-                            variant="primary"
-                            className="mt-1"
-                        />
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     )

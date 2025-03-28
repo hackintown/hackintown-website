@@ -1,27 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { MdEmail, MdArrowForward } from "react-icons/md";
-import { usePathname } from "next/navigation";
 import { toast } from "react-hot-toast";
-import Link from "next/link";
-import { Button } from "../button";
-import { ArrowRightIcon } from "lucide-react";
-
-// Form data interface for type safety and documentation
-interface FormData {
-    fullName: string;
-    email: string;
-    countryCode: string;
-    phone: string;
-    companyName: string;
-    companySize: string;
-    jobTitle: string;
-    launchTime: string;
-    about: string;
-    budget: string;
-    source_url: string;
-}
+import { Loader2, Phone, Clock, Mail, MapPin } from "lucide-react";
+import { motion } from "framer-motion";
+import { NAVIGATION_MENUS } from "../Navbar/constants";
+import { Progress } from "@/components/ui/progress";
 
 /**
  * ContactSection Component
@@ -30,115 +14,70 @@ interface FormData {
  */
 
 export default function ContactSection() {
-    // State management for form submission and budget slider
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [budget, setBudget] = useState(5000);
-    const pathname = usePathname(); // Used for tracking form source
 
-    // Initialize form data with default values
-    const [formData, setFormData] = useState<FormData>({
-        fullName: "",
+    const [formData, setFormData] = useState({
+        name: "",
         email: "",
-        countryCode: "+91",
         phone: "",
+        businessEmail: "",
         companyName: "",
-        companySize: "",
-        jobTitle: "",
-        launchTime: "",
-        about: "",
-        budget: "5000",
-        source_url: "",
+        interestedServices: "",
+        launchTimeline: "",
+        budget: 5000,
+        aboutProject: "",
     });
 
-    /**
-     * Validates form data before submission
-     * @returns string|null - Error message if validation fails, null if valid
-     */
-    const validateForm = () => {
-        if (!formData.fullName) return "Full Name is required";
-        if (!formData.email) return "Email is required";
-        if (!formData.phone) return "Phone number is required";
-        if (!formData.companyName) return "Company Name is required";
-        if (!formData.companySize) return "Company Size is required";
-        if (!formData.jobTitle) return "Job Title is required";
-        if (!formData.launchTime) return "Launch Timeline is required";
-        if (!formData.about) return "Project description is required";
-        if (!formData.budget) return "Budget is required";
-        return null;
-    };
+    const [loading, setLoading] = useState(false);
 
-    /**
-     * Handles changes to the budget slider
-     * @param e - Change event from range input
-     */
-    const handleBudgetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setBudget(Number(e.target.value));
-    };
-
-    /**
-     * Handles form submission
-     * @param e - Form submission event
-     */
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setIsSubmitting(true);
+        setLoading(true);
 
         try {
-            // Validate form
-            const error = validateForm();
-            if (error) {
-                toast.error(error);
-                setIsSubmitting(false);
-                return;
-            }
-            // API call to submit form data
-            const response = await fetch("/api/contact", {
+            const response = await fetch("/api/getintouch", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    ...formData,
-                    budget: budget.toString(),
-                    source_url: `${window.location.origin}${pathname}`,
-                }),
+                body: JSON.stringify(formData),
             });
-
-            const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.error || "Something went wrong");
+                throw new Error("Failed to submit");
             }
 
-            // Success toast
-            toast.success("Form submitted successfully! We'll get back to you soon.");
-
-            // Reset form to initial state
+            toast.success("Message sent successfully!");
             setFormData({
-                fullName: "",
+                name: "",
                 email: "",
-                countryCode: "+91",
                 phone: "",
+                businessEmail: "",
                 companyName: "",
-                companySize: "",
-                jobTitle: "",
-                launchTime: "",
-                about: "",
-                budget: "5000",
-                source_url: "",
+                interestedServices: "",
+                launchTimeline: "",
+                budget: 5000,
+                aboutProject: "",
             });
-            setBudget(5000);
         } catch (error) {
-            // Error handling with user feedback
             console.error("Error submitting form:", error);
-            toast.error(
-                error instanceof Error
-                    ? error.message
-                    : "Failed to submit form. Please try again later."
-            );
+            toast.error("Failed to send message. Please try again.");
         } finally {
-            setIsSubmitting(false);
+            setLoading(false);
         }
+    };
+
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    ) => {
+        setFormData((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
+    };
+
+    const getServices = () => {
+        const servicesMenu = NAVIGATION_MENUS.find(menu => menu.name === "Services");
+        return servicesMenu?.subMenu || [];
     };
 
     return (
@@ -150,218 +89,195 @@ export default function ContactSection() {
                         <div className="space-y-4">
                             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
                                 Get in Touch with
-                                <span className="text-[#0072BC] block text-4xl sm:text-5xl md:text-6xl font-extrabold">
+                                <span className="text-primary block text-4xl sm:text-5xl md:text-6xl font-extrabold">
                                     Our
                                     <br />
                                     Experts
                                 </span>
                             </h2>
-                            <p className="text-gray-600 md:text-lg leading-relaxed">
-                                Want to find out how KNK Soft Infotech can help your
-                                organization? We&apos;d love to hear from you.
+                            <p className="text-muted-foreground">
+                                Have questions about your hearing health? Our expert audiologists are here to help.
+                                Contact us today to schedule a consultation or learn more about our services.
                             </p>
                         </div>
-
-                        {/* Partner Section */}
-                        <div className="space-y-4">
-                            <h3 className="text-2xl font-bold text-gray-900">
-                                Integrate Towards Innovation
-                            </h3>
-                            <p className="text-gray-600">
-                                Become an KNK Soft Infotech Partner to Launch, Run and Grow Your
-                                Business Globally.
-                            </p>
-                            <Link href="/contact-us" passHref>
-                                <button className="group flex items-center text-[#0072BC] font-semibold hover:opacity-80 transition-all duration-200">
-                                    Become a Partner
-                                    <MdArrowForward className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                                </button>
-                            </Link>
-                        </div>
-
-                        {/* Contact Info */}
-                        <div className="space-y-4">
-                            <h3 className="text-2xl font-bold text-gray-900">
-                                Contact Info:
-                            </h3>
-                            <div className="space-y-3">
-                                <div className="flex items-center space-x-3 group">
-                                    <MdEmail className="h-5 w-5 text-[#0072BC]" />
-                                    <a
-                                        href="mailto:sales@knksoftinfotech.com"
-                                        className="text-[#0072BC] hover:underline transition-colors"
-                                    >
-                                        sales@knksoftinfotech.com
-                                    </a>
+                        <div className="space-y-6">
+                            <div className="flex items-start gap-4">
+                                <div className="rounded-lg bg-primary/10 p-3">
+                                    <MapPin className="h-6 w-6 text-primary" />
                                 </div>
-                                <div className="flex items-center space-x-2">
-                                    <span className="text-sm">🇺🇸</span>
-                                    <a
-                                        href="tel:+15128723364"
-                                        className="text-gray-600 hover:text-[#0072BC]"
-                                    >
-                                        +1 (512) 8723364
-                                    </a>
+                                <div>
+                                    <h3 className="font-semibold text-foreground">Visit Us</h3>
+                                    <p className="text-muted-foreground">123 Hearing Care Lane, Delhi, 110001</p>
                                 </div>
-                                <div className="flex items-center space-x-2">
-                                    <span className="text-sm">🇦🇪</span>
-                                    <a
-                                        href="tel:+971507821690"
-                                        className="text-gray-600 hover:text-[#0072BC]"
-                                    >
-                                        +971 (0) 507821690
-                                    </a>
+                            </div>
+
+                            <div className="flex items-start gap-4">
+                                <div className="rounded-lg bg-primary/10 p-3">
+                                    <Phone className="h-6 w-6 text-primary" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-foreground">Call Us</h3>
+                                    <p className="text-muted-foreground">+91 98102-30650</p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-start gap-4">
+                                <div className="rounded-lg bg-primary/10 p-3">
+                                    <Mail className="h-6 w-6 text-primary" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-foreground">Email Us</h3>
+                                    <p className="text-muted-foreground">info@hearingclinic.com</p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-start gap-4">
+                                <div className="rounded-lg bg-primary/10 p-3">
+                                    <Clock className="h-6 w-6 text-primary" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-foreground">Working Hours</h3>
+                                    <p className="text-muted-foreground">Mon - Sat: 9:00 AM - 7:00 PM</p>
+                                    <p className="text-muted-foreground">Sunday: Closed</p>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                     {/* Right Column - Form */}
-                    <div className="lg:pl-8">
-                        <div className="space-y-6 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                            <h3 className="text-2xl lg:text-3xl font-bold text-gray-900">
-                                Let&apos;s Get to know you
-                            </h3>
-                            <form onSubmit={handleSubmit} className="space-y-5">
-                                {/* Form fields with enhanced styling */}
-                                <div className="grid gap-4 sm:grid-cols-2">
+                    {/* Contact Form */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="rounded-2xl border bg-card p-6 shadow-lg md:p-8"
+                    >
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="grid gap-6 md:grid-cols-2">
+                                <div>
+                                    <label className="text-sm font-medium text-foreground">Full Name *</label>
                                     <input
                                         type="text"
-                                        placeholder="Full Name"
+                                        name="name"
                                         required
-                                        value={formData.fullName}
-                                        onChange={(e) =>
-                                            setFormData({ ...formData, fullName: e.target.value })
-                                        }
-                                        className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0072BC]/20 focus:border-[#0072BC] transition-all duration-200"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                                     />
+                                </div>
+                                <div>
+                                    <label className="text-sm font-medium text-foreground">Business Email *</label>
                                     <input
                                         type="email"
-                                        placeholder="Business Email"
+                                        name="businessEmail"
                                         required
-                                        value={formData.email}
-                                        onChange={(e) =>
-                                            setFormData({ ...formData, email: e.target.value })
-                                        }
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0072BC] focus:border-transparent"
+                                        value={formData.businessEmail}
+                                        onChange={handleChange}
+                                        className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                                     />
                                 </div>
+                            </div>
 
-                                <div className="flex space-x-2">
+                            <div className="grid gap-6 md:grid-cols-2">
+                                <div>
+                                    <label className="text-sm font-medium text-foreground">Company (or project) Name *</label>
+                                    <input
+                                        type="text"
+                                        name="companyName"
+                                        required
+                                        value={formData.companyName}
+                                        onChange={handleChange}
+                                        className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="text-sm font-medium text-foreground">What service(s) are you interested in? *</label>
                                     <select
-                                        className="w-[100px] px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0072BC] focus:border-transparent"
-                                        onChange={(e) =>
-                                            setFormData({ ...formData, countryCode: e.target.value })
-                                        }
-                                        defaultValue="+91"
+                                        name="interestedServices"
+                                        required
+                                        value={formData.interestedServices}
+                                        onChange={handleChange}
+                                        className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                                     >
-                                        <option value="+91">🇮🇳 +91</option>
-                                        <option value="+1">🇺🇸 +1</option>
-                                        <option value="+971">🇦🇪 +971</option>
+                                        <option value="">Select a service</option>
+                                        {getServices().map((service) => (
+                                            <option key={service.href} value={service.name}>
+                                                {service.name}
+                                            </option>
+                                        ))}
                                     </select>
-                                    <input
-                                        type="tel"
-                                        placeholder="Mobile Number"
-                                        className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0072BC] focus:border-transparent"
-                                        onChange={(e) =>
-                                            setFormData({ ...formData, phone: e.target.value })
-                                        }
-                                    />
                                 </div>
+                            </div>
 
-                                <div className="grid gap-4 sm:grid-cols-2">
-                                    <input
-                                        type="text"
-                                        placeholder="Company (or project) Name"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0072BC] focus:border-transparent"
-                                        onChange={(e) =>
-                                            setFormData({ ...formData, companyName: e.target.value })
-                                        }
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Company Size"
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0072BC] focus:border-transparent"
-                                        onChange={(e) =>
-                                            setFormData({ ...formData, companySize: e.target.value })
-                                        }
-                                    />
-                                </div>
-
+                            <div>
+                                <label className="text-sm font-medium text-foreground">When do you want to launch a solution? *</label>
                                 <select
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0072BC] focus:border-transparent"
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, jobTitle: e.target.value })
-                                    }
-                                    defaultValue=""
+                                    name="launchTimeline"
+                                    required
+                                    value={formData.launchTimeline}
+                                    onChange={handleChange}
+                                    className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                                 >
-                                    <option value="" disabled>
-                                        Job Title
-                                    </option>
-                                    <option value="entrepreneur">Enterprenuer</option>
-                                    <option value="manager">Manager</option>
-                                    <option value="director">Director</option>
-                                    <option value="c-level">C-Level</option>
-                                    <option value="student">Student</option>
-                                    <option value="other">Other</option>
-                                </select>
-
-                                <select
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0072BC] focus:border-transparent"
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, launchTime: e.target.value })
-                                    }
-                                    defaultValue=""
-                                >
-                                    <option value="" disabled>
-                                        When do you want to launch a solution?
-                                    </option>
+                                    <option value="">Select timeline</option>
                                     <option value="immediately">Immediately</option>
-                                    <option value="1month">Within 1 month</option>
-                                    <option value="3months">Within 3 months</option>
-                                    <option value="6months">Within 6 months</option>
+                                    <option value="1-3months">1-3 months</option>
+                                    <option value="3-6months">3-6 months</option>
+                                    <option value="6+months">6+ months</option>
                                 </select>
+                            </div>
 
-                                <div className="space-y-4">
-                                    <div className="flex justify-between text-sm font-medium text-gray-700">
-                                        <span>Budget</span>
-                                        <span className="text-[#0072BC]">
-                                            ${budget.toLocaleString()}
-                                        </span>
-                                    </div>
+                            <div>
+                                <label className="text-sm font-medium text-foreground">Budget *</label>
+                                <div className="mt-2 space-y-2">
+                                    <Progress value={(formData.budget / 50000) * 100} className="h-2" />
                                     <input
                                         type="range"
-                                        min="1000"
+                                        name="budget"
+                                        min="5000"
                                         max="50000"
                                         step="1000"
-                                        value={budget}
-                                        onChange={handleBudgetChange}
-                                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#0072BC]"
+                                        value={formData.budget}
+                                        onChange={handleChange}
+                                        className="w-full"
                                     />
+                                    <div className="flex justify-between text-sm text-muted-foreground">
+                                        <span>${formData.budget.toLocaleString()}</span>
+                                        <span>$50,000</span>
+                                    </div>
                                 </div>
+                            </div>
 
+                            <div>
+                                <label className="text-sm font-medium text-foreground">About Project</label>
                                 <textarea
-                                    placeholder="About Project"
-                                    className="w-full min-h-[120px] px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0072BC] focus:border-transparent resize-y"
-                                    onChange={(e) =>
-                                        setFormData({ ...formData, about: e.target.value })
-                                    }
+                                    name="aboutProject"
+                                    value={formData.aboutProject}
+                                    onChange={handleChange}
+                                    rows={4}
+                                    className="mt-2 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                                    placeholder="Tell us about your project..."
                                 />
+                            </div>
 
-                                <Button
-                                    variant="primary"
-                                    type="submit"
-                                    size={"lg"}
-                                    disabled={isSubmitting}
-                                    rightIcon={<ArrowRightIcon />}
-                                >
-                                    {isSubmitting ? "Submitting..." : "Submit"}
-                                </Button>
-                            </form>
-                        </div>
-                    </div>
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full rounded-lg bg-primary px-8 py-3 font-medium text-white transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50"
+                            >
+                                {loading ? (
+                                    <span className="flex items-center justify-center gap-2">
+                                        <Loader2 className="h-5 w-5 animate-spin" />
+                                        Sending...
+                                    </span>
+                                ) : (
+                                    "Send Message"
+                                )}
+                            </button>
+                        </form>
+                    </motion.div>
                 </div>
             </div>
-        </section>
+        </section >
     );
 }

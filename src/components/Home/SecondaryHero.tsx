@@ -121,10 +121,10 @@ export default function SecondaryHero() {
     return (
         <section
             id="home"
-            className="relative overflow-hidden py-16 md:py-20 lg:py-24 xl:py-32"
+            className="relative overflow-hidden py-28 md:pt-32 lg:pt-36"
             ref={ref}
         >
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="container relative">
                 <motion.div
                     variants={containerVariants}
                     animate={controls}
@@ -137,7 +137,7 @@ export default function SecondaryHero() {
                     >
                         <motion.span
                             variants={itemVariants}
-                            className="inline-block px-3 py-1 mb-4 text-sm font-medium rounded-full bg-primary/10 text-primary"
+                            className="inline-block px-3 py-1 mb-4 text-sm font-medium rounded-full bg-primary/10 text-primary border border-border"
                         >
                             {heroData.tagline}
                         </motion.span>
@@ -151,7 +151,7 @@ export default function SecondaryHero() {
 
                         <motion.p
                             variants={itemVariants}
-                            className="mb-8 text-base md:text-lg text-foreground/80 max-w-xl font-poppins"
+                            className="mb-8 text-base md:text-lg text-foreground/80 max-w-xl font-poppins font-light lg:font-normal"
                         >
                             {heroData.description}
                         </motion.p>

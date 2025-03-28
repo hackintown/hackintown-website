@@ -67,8 +67,8 @@ const WhyChooseUs: React.FC = () => {
     ];
 
     return (
-        <section className="py-16 md:py-24 lg:py-32 relative overflow-hidden bg-gradient-to-b from-background to-background/50" ref={ref}>
-            <div className="container mx-auto px-4">
+        <section className="py-10 lg:py-20 xl:py-32 relative overflow-hidden bg-gradient-to-b from-background to-background/50" ref={ref}>
+            <div className="container">
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"
@@ -78,7 +78,7 @@ const WhyChooseUs: React.FC = () => {
                     {/* Left Image Section - Hidden on mobile */}
                     <motion.div
                         variants={itemVariants}
-                        className="hidden md:block md:w-1/2 relative"
+                        className="hidden lg:block md:w-1/2 relative"
                     >
                         <div className="relative z-10 grid grid-cols-2 gap-6">
                             <div className="space-y-6">
@@ -157,13 +157,13 @@ const WhyChooseUs: React.FC = () => {
                     {/* Right Content Section */}
                     <motion.div
                         variants={itemVariants}
-                        className="md:w-1/2"
+                        className="lg:w-1/2 flex flex-col items-center lg:items-start"
                     >
 
                         <TextWithLines text="Why Choose Us" className='mb-4' />
                         <motion.h2
                             variants={itemVariants}
-                            className="mb-6 text-3xl font-bold text-foreground lg:text-4xl xl:text-5xl leading-tight"
+                            className="title lg:text-left"
                         >
                             Enterprise IT Solutions <br className="hidden md:block" />
                             <span className="text-primary">Tailored for Your Success</span>
@@ -171,7 +171,7 @@ const WhyChooseUs: React.FC = () => {
 
                         <motion.p
                             variants={itemVariants}
-                            className="text-base md:text-lg text-muted-foreground mb-10"
+                            className="sub-title lg:text-left mb-10"
                         >
                             With over 15 years of industry experience, we deliver cutting-edge IT solutions that drive business growth and operational excellence. Our team of certified experts ensures your technology infrastructure is secure, scalable, and aligned with your strategic objectives.
                         </motion.p>
@@ -198,14 +198,14 @@ const WhyChooseUs: React.FC = () => {
 
                         <motion.div
                             variants={itemVariants}
-                            className="flex flex-col sm:flex-row gap-6 items-start sm:items-center"
+                            className="flex flex-col sm:flex-row gap-4 items-start sm:items-center"
                         >
                             <Link
                                 href="/services"
                                 passHref
                             >
-                                <Button variant="primary" size="lg" className="group" rightIcon={
-                                    <ArrowRightIcon className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                                <Button variant="primary" size="md" className="group" rightIcon={
+                                    <ArrowRightIcon className="size-4" />
                                 }>
                                     EXPLORE OUR SERVICES
                                 </Button>
@@ -215,7 +215,7 @@ const WhyChooseUs: React.FC = () => {
                                 href="/contact"
                                 passHref
                             >
-                                <Button variant="outline" size="lg">
+                                <Button variant="outline" size="md">
                                     SCHEDULE A CONSULTATION
                                 </Button>
                             </Link>
