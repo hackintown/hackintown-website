@@ -109,7 +109,7 @@ export default function MobMenu({ Menus }: MobMenuProps) {
     <div className="relative">
       <button
         className={cn(
-          "lg:hidden z-[999] relative p-2.5 rounded-full transition-all duration-300",
+          "lg:hidden z-[999] relative p-2 rounded-full transition-all duration-300",
           isOpen
             ? "bg-primary text-primary-foreground rotate-90"
             : "hover:bg-primary/10 hover:scale-105"
@@ -117,7 +117,7 @@ export default function MobMenu({ Menus }: MobMenuProps) {
         onClick={toggleDrawer}
         aria-label={isOpen ? "Close menu" : "Open menu"}
       >
-        {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        {isOpen ? <X className="size-7" /> : <Menu className="size-7" />}
       </button>
 
       <AnimatePresence>
@@ -166,7 +166,9 @@ export default function MobMenu({ Menus }: MobMenuProps) {
                             className="flex items-center gap-3 p-4 hover:bg-primary/5 rounded-xl transition-all duration-300"
                             onClick={handleMenuItemClick}
                           >
-                            <span className="font-medium text-foreground/90">{menu.name}</span>
+                            <span className="font-medium text-foreground/90">
+                              {menu.name}
+                            </span>
                           </Link>
                         ) : (
                           <button
@@ -174,7 +176,9 @@ export default function MobMenu({ Menus }: MobMenuProps) {
                             onClick={() => setClicked(isClicked ? null : i)}
                             aria-expanded={isClicked}
                           >
-                            <span className="font-medium text-foreground/90">{menu.name}</span>
+                            <span className="font-medium text-foreground/90">
+                              {menu.name}
+                            </span>
                             {hasSubMenu && (
                               <ChevronDown
                                 className={cn(
@@ -205,8 +209,10 @@ export default function MobMenu({ Menus }: MobMenuProps) {
                                     transition-all duration-300 hover:translate-x-1"
                                   >
                                     {item.iconName && (
-                                      <div className="p-2.5 rounded-lg bg-primary/10 text-primary 
-                                      shadow-sm shadow-primary/10 transition-colors duration-300">
+                                      <div
+                                        className="p-2.5 rounded-lg bg-primary/10 text-primary 
+                                      shadow-sm shadow-primary/10 transition-colors duration-300"
+                                      >
                                         {getIcon(item.iconName)}
                                       </div>
                                     )}

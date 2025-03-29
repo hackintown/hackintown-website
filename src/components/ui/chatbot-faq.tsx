@@ -39,14 +39,14 @@ export default function AdvancedChatbotFAQ() {
     return saved
       ? JSON.parse(saved)
       : [
-        {
-          id: "welcome",
-          content:
-            "Hello! I'm Hackintown's advanced IT assistant. Ask me about our custom software, cloud services, or anything else!",
-          sender: "bot",
-          timestamp: Date.now(),
-        },
-      ];
+          {
+            id: "welcome",
+            content:
+              "Hello! I'm Hackintown's advanced IT assistant. Ask me about our custom software, cloud services, or anything else!",
+            sender: "bot",
+            timestamp: Date.now(),
+          },
+        ];
   });
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -56,24 +56,42 @@ export default function AdvancedChatbotFAQ() {
       question: "What services does Hackintown provide?",
       answer:
         "Hackintown specializes in Custom Software Development (MVP Development, Custom Web Development, Mobile App Development, Bar Code Solutions, E-Commerce) and Cloud Services (AWS Development, Cloud Architecture, DevOps Services, Cloud Security). We deliver tailored solutions to meet your business needs.",
-      keywords: ["services", "software development", "cloud", "custom", "hackintown"],
+      keywords: [
+        "services",
+        "software development",
+        "cloud",
+        "custom",
+        "hackintown",
+      ],
     },
     {
-      question: "What is Hackintown’s MVP Development service?",
+      question: "What is Hackintown's MVP Development service?",
       answer:
-        "Hackintown’s MVP Development service helps you build scalable minimum viable products with core features to test your ideas quickly and efficiently. We focus on rapid development and iterative feedback to ensure your product succeeds.",
-      keywords: ["mvp", "development", "minimum viable product", "scalable", "hackintown"],
+        "Hackintown's MVP Development service helps you build scalable minimum viable products with core features to test your ideas quickly and efficiently. We focus on rapid development and iterative feedback to ensure your product succeeds.",
+      keywords: [
+        "mvp",
+        "development",
+        "minimum viable product",
+        "scalable",
+        "hackintown",
+      ],
     },
     {
       question: "Does Hackintown offer custom web and mobile app development?",
       answer:
         "Yes, Hackintown provides Custom Web Development for modern web applications and Custom Mobile App Development for native and cross-platform apps. We create user-friendly, high-performance solutions tailored to your requirements.",
-      keywords: ["web development", "mobile app", "custom", "apps", "hackintown"],
+      keywords: [
+        "web development",
+        "mobile app",
+        "custom",
+        "apps",
+        "hackintown",
+      ],
     },
     {
-      question: "What are Hackintown’s Bar Code Solutions?",
+      question: "What are Hackintown's Bar Code Solutions?",
       answer:
-        "Hackintown’s Bar Code Solutions include custom software for inventory management and tracking systems. We design efficient, reliable tools to streamline your business operations.",
+        "Hackintown's Bar Code Solutions include custom software for inventory management and tracking systems. We design efficient, reliable tools to streamline your business operations.",
       keywords: ["barcode", "inventory", "tracking", "solutions", "hackintown"],
     },
     {
@@ -86,13 +104,26 @@ export default function AdvancedChatbotFAQ() {
       question: "What cloud services does Hackintown offer?",
       answer:
         "Hackintown provides AWS Development, Cloud Architecture, DevOps Services (CI/CD and automation), and Cloud Security. We help you design, deploy, and secure scalable cloud infrastructures.",
-      keywords: ["cloud", "aws", "devops", "security", "architecture", "hackintown"],
+      keywords: [
+        "cloud",
+        "aws",
+        "devops",
+        "security",
+        "architecture",
+        "hackintown",
+      ],
     },
     {
       question: "How does Hackintown ensure cloud security?",
       answer:
-        "Hackintown’s Cloud Security services include advanced protection measures, encryption, regular audits, and compliance with industry standards to safeguard your cloud-based systems from threats.",
-      keywords: ["cloud security", "protection", "secure", "threats", "hackintown"],
+        "Hackintown's Cloud Security services include advanced protection measures, encryption, regular audits, and compliance with industry standards to safeguard your cloud-based systems from threats.",
+      keywords: [
+        "cloud security",
+        "protection",
+        "secure",
+        "threats",
+        "hackintown",
+      ],
     },
     {
       question: "Which industries does Hackintown serve?",
@@ -107,13 +138,20 @@ export default function AdvancedChatbotFAQ() {
       keywords: ["on-demand", "app", "development", "services", "hackintown"],
     },
     {
-      question: "Does Hackintown offer solutions for food and grocery delivery?",
+      question:
+        "Does Hackintown offer solutions for food and grocery delivery?",
       answer:
         "Hackintown provides custom Food Delivery and Grocery Delivery app development, enabling businesses to offer convenient ordering and delivery services with real-time tracking and secure payments.",
-      keywords: ["food delivery", "grocery delivery", "app", "custom", "hackintown"],
+      keywords: [
+        "food delivery",
+        "grocery delivery",
+        "app",
+        "custom",
+        "hackintown",
+      ],
     },
     {
-      question: "What is Hackintown’s expertise in taxi app development?",
+      question: "What is Hackintown's expertise in taxi app development?",
       answer:
         "Hackintown develops Taxi Apps with features like ride booking, driver tracking, and payment integration, providing reliable and user-friendly solutions for transportation businesses.",
       keywords: ["taxi app", "ride", "booking", "development", "hackintown"],
@@ -125,10 +163,17 @@ export default function AdvancedChatbotFAQ() {
       keywords: ["beauty", "salon", "app", "booking", "hackintown"],
     },
     {
-      question: "What support does Hackintown offer for home services and handyman apps?",
+      question:
+        "What support does Hackintown offer for home services and handyman apps?",
       answer:
         "Hackintown creates Home Services and Handyman Apps for scheduling professional maintenance, repairs, and installations, connecting service providers with customers efficiently.",
-      keywords: ["home services", "handyman", "app", "scheduling", "hackintown"],
+      keywords: [
+        "home services",
+        "handyman",
+        "app",
+        "scheduling",
+        "hackintown",
+      ],
     },
     {
       question: "Does Hackintown provide car washing app development?",
@@ -139,14 +184,21 @@ export default function AdvancedChatbotFAQ() {
     {
       question: "How do I contact Hackintown for support or inquiries?",
       answer:
-        "You can reach Hackintown at (555) 123-4567, email us at info@hackintown.com, or visit our Contact Us page at /contact-us. We’re here to assist with all your questions!",
+        "You can reach Hackintown at (555) 123-4567, email us at info@hackintown.com, or visit our Contact Us page at /contact-us. We're here to assist with all your questions!",
       keywords: ["contact", "support", "inquiry", "help", "hackintown"],
     },
     {
       question: "What can I learn about Hackintown from the Insights section?",
       answer:
-        "The Insights section includes About Us, Blog, Awards & Recognition, Careers, Partnership opportunities, and FAQs. It’s a great way to learn about our team, achievements, and how we can collaborate.",
-      keywords: ["insights", "about us", "blog", "careers", "partnership", "hackintown"],
+        "The Insights section includes About Us, Blog, Awards & Recognition, Careers, Partnership opportunities, and FAQs. It's a great way to learn about our team, achievements, and how we can collaborate.",
+      keywords: [
+        "insights",
+        "about us",
+        "blog",
+        "careers",
+        "partnership",
+        "hackintown",
+      ],
     },
     {
       question: "Does Hackintown offer career opportunities?",
@@ -158,22 +210,27 @@ export default function AdvancedChatbotFAQ() {
       question: "Can my company partner with Hackintown?",
       answer:
         "Hackintown welcomes partnerships! Visit /partnership to explore collaboration opportunities and how we can work together to deliver cutting-edge solutions.",
-      keywords: ["partnership", "collaborate", "business", "solutions", "hackintown"],
+      keywords: [
+        "partnership",
+        "collaborate",
+        "business",
+        "solutions",
+        "hackintown",
+      ],
     },
     {
-      question: "Where can I see Hackintown’s past projects?",
+      question: "Where can I see Hackintown's past projects?",
       answer:
-        "Explore our Portfolio at /portfolio to see examples of our custom software, cloud solutions, and on-demand apps we’ve built for clients across various industries.",
+        "Explore our Portfolio at /portfolio to see examples of our custom software, cloud solutions, and on-demand apps we've built for clients across various industries.",
       keywords: ["portfolio", "projects", "work", "examples", "hackintown"],
     },
     {
       question: "How do I get started with Hackintown?",
       answer:
-        "To begin, contact us via /contact-us or email info@hackintown.com. We’ll discuss your needs, propose a tailored solution, and kick off your project with Hackintown!",
+        "To begin, contact us via /contact-us or email info@hackintown.com. We'll discuss your needs, propose a tailored solution, and kick off your project with Hackintown!",
       keywords: ["get started", "begin", "contact", "project", "hackintown"],
     },
   ];
-
 
   // Save messages to localStorage
   useEffect(() => {
@@ -186,7 +243,9 @@ export default function AdvancedChatbotFAQ() {
     const normalizedQuery = query.toLowerCase();
 
     // Direct question match
-    const directMatch = faqData.find((item) => item.question.toLowerCase() === normalizedQuery);
+    const directMatch = faqData.find(
+      (item) => item.question.toLowerCase() === normalizedQuery
+    );
     if (directMatch) return directMatch.answer;
 
     // Score-based keyword matching
@@ -203,12 +262,14 @@ export default function AdvancedChatbotFAQ() {
     }
 
     // Fallback response with context suggestion
-    const lastUserMessage = messages.filter((m) => m.sender === "user").slice(-2, -1)[0];
+    const lastUserMessage = messages
+      .filter((m) => m.sender === "user")
+      .slice(-2, -1)[0];
     return lastUserMessage
-      ? "I couldn’t find a match. Did you mean something related to '" +
-      lastUserMessage.content +
-      "'? Try rephrasing or ask about our services!"
-      : "I don’t have an answer for that yet. Try asking about our IT services, cloud solutions, or contact us at info@hackintown.com!";
+      ? "I couldn't find a match. Did you mean something related to '" +
+          lastUserMessage.content +
+          "'? Try rephrasing or ask about our services!"
+      : "I don't have an answer for that yet. Try asking about our IT services, cloud solutions, or contact us at info@hackintown.com!";
   };
 
   // Simulate typing effect
@@ -220,8 +281,14 @@ export default function AdvancedChatbotFAQ() {
           currentText = content.slice(0, currentText.length + 1);
           setMessages((prev) => {
             const lastMessage = prev[prev.length - 1];
-            if (lastMessage.sender === "bot" && lastMessage.id.startsWith("typing-")) {
-              return [...prev.slice(0, -1), { ...lastMessage, content: currentText }];
+            if (
+              lastMessage.sender === "bot" &&
+              lastMessage.id.startsWith("typing-")
+            ) {
+              return [
+                ...prev.slice(0, -1),
+                { ...lastMessage, content: currentText },
+              ];
             }
             return prev;
           });
@@ -265,7 +332,11 @@ export default function AdvancedChatbotFAQ() {
       const updated = prev.slice(0, -1);
       return [
         ...updated,
-        { ...prev[prev.length - 1], id: (Date.now() + 1).toString(), content: botResponseContent },
+        {
+          ...prev[prev.length - 1],
+          id: (Date.now() + 1).toString(),
+          content: botResponseContent,
+        },
       ];
     });
     setIsTyping(false);
@@ -277,7 +348,8 @@ export default function AdvancedChatbotFAQ() {
 
   // Dynamic suggested questions based on conversation
   const getSuggestedQuestions = () => {
-    const lastBotMessage = messages.filter((m) => m.sender === "bot").slice(-1)[0]?.content || "";
+    const lastBotMessage =
+      messages.filter((m) => m.sender === "bot").slice(-1)[0]?.content || "";
     if (lastBotMessage.includes("services")) {
       return [
         "What is MVP Development?",
@@ -293,18 +365,20 @@ export default function AdvancedChatbotFAQ() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto border rounded-xl shadow-sm overflow-hidden bg-card">
-      <div className="border-b p-4 bg-muted/30">
+    <div className="w-full max-w-3xl mx-auto border rounded-xl shadow-sm overflow-hidden bg-card">
+      <div className="border-b p-3 sm:p-4 bg-muted/30">
         <div className="flex items-center gap-2">
-          <Bot className="h-5 w-5 text-primary" />
-          <h2 className="font-semibold">Hackintown IT Assistant</h2>
+          <Bot className="h-4 sm:h-5 w-4 sm:w-5 text-primary" />
+          <h2 className="font-semibold text-sm sm:text-base">
+            Hackintown IT Assistant
+          </h2>
         </div>
-        <p className="text-sm text-muted-foreground mt-1">
-          Your advanced guide to Hackintown’s IT solutions
+        <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+          Your advanced guide to Hackintown&apos;s IT solutions
         </p>
       </div>
 
-      <div className="h-[400px] overflow-y-auto p-4 flex flex-col gap-4">
+      <div className="h-[350px] sm:h-[400px] overflow-y-auto p-3 sm:p-4 flex flex-col gap-3 sm:gap-4">
         <AnimatePresence>
           {messages.map((message) => (
             <motion.div
@@ -312,9 +386,15 @@ export default function AdvancedChatbotFAQ() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
+              className={`flex ${
+                message.sender === "user" ? "justify-end" : "justify-start"
+              }`}
             >
-              <div className={`flex gap-3 max-w-[80%] ${message.sender === "user" ? "flex-row-reverse" : ""}`}>
+              <div
+                className={`flex gap-3 max-w-[80%] ${
+                  message.sender === "user" ? "flex-row-reverse" : ""
+                }`}
+              >
                 <Avatar className="h-8 w-8">
                   {message.sender === "bot" ? (
                     <>
@@ -335,13 +415,19 @@ export default function AdvancedChatbotFAQ() {
                 <div
                   className={`
                     rounded-lg p-3 
-                    ${message.sender === "bot" ? "bg-muted text-foreground" : "bg-primary text-primary-foreground"}
+                    ${
+                      message.sender === "bot"
+                        ? "bg-muted text-foreground"
+                        : "bg-primary text-primary-foreground"
+                    }
                   `}
                 >
                   {message.content}
-                  <span className={`cn{
+                  <span
+                    className={`cn{
                     message.sender === "bot" ? "text-muted-foreground" : "text-primary-foreground"
-                  } text-xs block mt-1`}>
+                  } text-xs block mt-1`}
+                  >
                     {new Date(message.timestamp).toLocaleTimeString()}
                   </span>
                 </div>
@@ -349,7 +435,11 @@ export default function AdvancedChatbotFAQ() {
             </motion.div>
           ))}
           {isTyping && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex justify-start"
+            >
               <div className="flex gap-3 max-w-[80%]">
                 <Avatar className="h-8 w-8">
                   <AvatarFallback className="bg-primary text-primary-foreground">
@@ -367,9 +457,11 @@ export default function AdvancedChatbotFAQ() {
       </div>
 
       {messages.length <= 2 && (
-        <div className="px-4 pb-4">
-          <p className="text-sm text-muted-foreground mb-2">Try asking:</p>
-          <div className="flex flex-wrap gap-2">
+        <div className="px-3 sm:px-4 pb-3 sm:pb-4">
+          <p className="text-xs sm:text-sm text-muted-foreground mb-2">
+            Try asking:
+          </p>
+          <div className="flex flex-wrap gap-1.5 sm:gap-2">
             {getSuggestedQuestions().map((question, index) => (
               <button
                 key={index}
@@ -377,7 +469,7 @@ export default function AdvancedChatbotFAQ() {
                   setInput(question);
                   setTimeout(() => handleSend(), 100);
                 }}
-                className="text-sm bg-muted hover:bg-muted/80 text-muted-foreground px-3 py-1.5 rounded-full transition-colors"
+                className="text-xs sm:text-sm bg-muted hover:bg-muted/80 text-muted-foreground px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full transition-colors"
               >
                 {question}
               </button>
@@ -386,17 +478,22 @@ export default function AdvancedChatbotFAQ() {
         </div>
       )}
 
-      <div className="p-4 border-t">
+      <div className="p-3 sm:p-4 border-t">
         <div className="flex gap-2">
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask me anything..."
-            className="flex-1"
+            className="flex-1 text-sm"
             disabled={isTyping}
           />
-          <Button onClick={handleSend} size="icon" disabled={input.trim() === "" || isTyping}>
+          <Button
+            onClick={handleSend}
+            size="icon"
+            className="h-9 w-9 sm:h-10 sm:w-10"
+            disabled={input.trim() === "" || isTyping}
+          >
             <Send className="h-4 w-4" />
           </Button>
         </div>

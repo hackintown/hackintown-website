@@ -14,7 +14,7 @@ import { Button } from "../button";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -49,11 +49,9 @@ export default function Navbar() {
   return (
     <motion.header
       className={cn(
-        "fixed left-0 top-0 z-50 w-full bg-transparent py-4 transition-all duration-300 ease-in-out",
+        "fixed left-0 top-0 z-50 w-full bg-transparent py-2 transition-all duration-300 ease-in-out",
         "border-b border-border/5",
-        isScrolled
-          ? "shadow-lg bg-background py-2"
-          : "bg-transparent border-border"
+        isScrolled ? "shadow-lg bg-background" : "bg-transparent border-border"
       )}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -99,7 +97,10 @@ export default function Navbar() {
 }
 
 const Logo = () => (
-  <Link href="/" className="text-2xl xl:text-3xl font-bold whitespace-nowrap text-primary">
+  <Link
+    href="/"
+    className="text-2xl xl:text-3xl font-bold whitespace-nowrap text-primary"
+  >
     Hackintown
   </Link>
 );
